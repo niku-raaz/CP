@@ -1,0 +1,1 @@
+{"name":"Local: yyy","url":"c:\\Users\\user\\Desktop\\CP\\yyy.cpp","tests":[{"id":1734984962974,"input":"3\n1 1\n1 500\n500 250","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\user\\Desktop\\CP\\yyy.cpp","group":"local","local":true}

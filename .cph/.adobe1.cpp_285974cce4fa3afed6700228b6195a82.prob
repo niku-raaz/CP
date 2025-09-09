@@ -1,0 +1,1 @@
+{"name":"Local: adobe1","url":"c:\\Users\\user\\Desktop\\CP\\adobe1.cpp","tests":[{"id":1752234483524,"input":"1\n1 1\n2 1 5\n5 2 3","output":"7 10 6 "}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\user\\Desktop\\CP\\adobe1.cpp","group":"local","local":true}

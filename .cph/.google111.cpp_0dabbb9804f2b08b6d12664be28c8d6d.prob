@@ -1,0 +1,1 @@
+{"name":"Local: google111","url":"c:\\Users\\user\\Desktop\\CP\\google111.cpp","tests":[{"id":1739978237195,"input":"4\n1 1 1 1\n1 2\n2 3\n3 4","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\user\\Desktop\\CP\\google111.cpp","group":"local","local":true}

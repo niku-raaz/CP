@@ -1,0 +1,1 @@
+{"name":"Local: game","url":"c:\\Users\\user\\Desktop\\CP\\game.cpp","tests":[{"id":1731767575199,"input":"4\n2 4 8 32","output":""},{"id":1731769662480,"input":"1\n34","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\user\\Desktop\\CP\\game.cpp","group":"local","local":true}
