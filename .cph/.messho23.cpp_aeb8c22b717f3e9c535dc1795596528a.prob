@@ -1,0 +1,1 @@
+{"name":"Local: messho23","url":"c:\\Users\\user\\Desktop\\CP\\messho23.cpp","tests":[{"id":1757870821415,"input":"4\n1 -2 -5 -1","output":""},{"id":1757870839014,"input":"8\n5 3 6 -10 4 -90 2 9","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\user\\Desktop\\CP\\messho23.cpp","group":"local","local":true}

@@ -1,0 +1,1 @@
+{"name":"Local: qa1","url":"c:\\Users\\user\\Desktop\\CP\\qa1.cpp","tests":[{"id":1757855634598,"input":"5\n2 6 2 3 3","output":""},{"id":1757855657291,"input":"3\n2 1 2","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\user\\Desktop\\CP\\qa1.cpp","group":"local","local":true}
