@@ -14,39 +14,39 @@ int32_t main(){
         g[y].push_back(x);
     }
 
-    int ans=0;
+    vector<vector<int>> dp(n+1,vector<int>(2,-1e9));
+    
+    // dp[i][0] => max matching without including i
+    // dp[i][1] => max matching with including i
 
-    bool good=1;
-    int root=0;
+    auto dfs=[&](int node,int par,auto && dfs)->void{
+             dp[node][0]=0;
+              
+             for(auto child: g[node]){
+                if(child==par) continue;
 
-    for(int i=1;i<=n;i++){
-        if(g[i].size()==1){
-            root=i;
-            break;
-        }
-    }
+                dfs(child,node,dfs);
+                // if I dont wanna take
+                // sum of all via childs
+                dp[node][0]+=max(dp[child][0],dp[child][1]);
+                // If I want to include 
+                // node
+                dp[node][1]=max(dp[node][1],min(0LL,dp[child][0]-dp[child][1])); // max extra we can get
+             }
+             dp[node][1]+=dp[node][0]; // overall addition
+             dp[node][1]++;
 
-    vector<int> vis(n+1,0);
 
-    auto dfs=[&](int node,int lo,auto &&dfs)->void{
-            vis[node]=1;
-
-            for(auto child: g[node]){
-                if(!vis[child]){
-                    if(lo){
-                        ans++;
-                        lo=0;
-                        dfs(child,0,dfs);
-                    }else{
-                        dfs(child,1,dfs);
-                    }
-                    
-                }
-            }
     };
 
-    dfs(root,1,dfs);
-    cout<<ans;
+
+    dfs(1,-1,dfs);
+
+    cout<<max(dp[1][0],dp[1][1]);
+
+    
+
+    
 
      
     
