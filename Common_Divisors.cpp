@@ -1,44 +1,38 @@
 #include<bits/stdc++.h>
 using namespace std;
-
-const int N=1e6;
-int cnt[N+2];
+#define int long long
    
-int main(){
-    int n;cin>>n;
+   
+int32_t main(){
 
-    vector<int> a(n);
+    int n;cin>>n;
+    int a[n];
+    int MX=1e6;
+    vector<int> f(MX+1,0);
     for(int i=0;i<n;i++){
         cin>>a[i];
+        f[a[i]]++;
     }
 
-    
+    // ai <=1e6;
 
+    for(int g=MX;g>=2;g--){
 
-    for(int i=0;i<n;i++){
-
-        for(int m=1;m*m<=a[i];m++){
-            if(a[i]%m==0){
-
-                cnt[m]++;
-
-                if(m*m!=a[i]){
-                    cnt[a[i]/m]++;
-                }
+        // is sare multiples check kro
+        // if we mind two multiples
+        // this is the answer
+        int ct=0;
+        for(int i=1;i*g<=MX;i++){
+            ct+=f[i*g];
+            if(ct>=2){
+                cout<<g;
+                return 0;
             }
         }
     }
+    //cout<<"hey";
+    cout<<1;
 
-
-    for(int i=N;i>=1;i--){
-        if(cnt[i]>=2){
-            cout<<i;
-            break;
-        }
-    }
-
-
-    
     
    
    

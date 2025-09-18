@@ -1,30 +1,25 @@
 #include<bits/stdc++.h>
 using namespace std;
-
-#define ll long long
+#define int long long
    
-int main(){
+   
+int32_t main(){
     int n;cin>>n;
-
+    // BS
     vector<int> a(n);
-  
     for(int i=0;i<n;i++){
         cin>>a[i];
     }
-
+    int ans=0;
     sort(a.begin(),a.end());
 
-    ll mean=a[(n/2)];
-
-    ll ans=0;
+    int x=a[(n/2)];
 
     for(int i=0;i<n;i++){
-        ans+=abs(a[i]-mean);
+        ans+=abs(a[i]-x);
     }
 
-    cout<<ans<<endl;
-   
-
+    cout<<ans;
     
 
 

@@ -1,31 +1,30 @@
 #include<bits/stdc++.h>
 using namespace std;
+#define int long long
    
    
-int main(){
+int32_t main(){
+
+    // Max subarrya sum
+    // also non empty
+
     int n;cin>>n;
-    vector<int> a(n);
-    for(int i=0;i<n;i++){
-        cin>>a[i];
-    }
 
-    long long ans=*max_element(a.begin(),a.end());
-    long long maxtillhere=0;
-   
+    int ans=-1e18;
+
+    int curr=0;
 
     for(int i=0;i<n;i++){
-        maxtillhere+=a[i];
-        ans=max(ans,maxtillhere);
-
-        if(maxtillhere<0){
-            maxtillhere=0;
+        int x;cin>>x;
+        curr+=x;
+        ans=max(ans,curr);
+        if(curr<0){
+            curr=0;
         }
-
-        
-
     }
-    cout<<ans;
 
+    cout<<ans;
+    
    
    
  return 0;

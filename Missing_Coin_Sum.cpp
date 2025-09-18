@@ -1,40 +1,29 @@
 #include<bits/stdc++.h>
 using namespace std;
+#define int long long
    
    
-int main(){
-    int n;
-    cin>>n;
-    vector<int> a(n);
-    long long sum=0;
-
+int32_t main(){
+    int n;cin>>n;
+    int a[n];
     for(int i=0;i<n;i++){
         cin>>a[i];
+    }
+    
+    sort(a,a+n);
+    int sum=0;
+    for(int i=0;i<n;i++){
+        if(sum+1<a[i]){
+            cout<<sum+1;
+            return 0;
+        }
         sum+=a[i];
     }
 
-    sort(a.begin(),a.end());
-\
-    long long can=0;
-
-    for(int i=0;i<n;i++){
-
-        if(a[i]>can+1){
-            // we cant make can+1
-            cout<<can+1;
-            return 0;
-        }else{
-            can+=a[i];
-        }
-
-    }
-
-    cout<<can+1;
-
-
+    cout<<sum+1;
 
     
-
+   
    
  return 0;
 }

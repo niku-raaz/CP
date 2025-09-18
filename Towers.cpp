@@ -1,35 +1,26 @@
 #include<bits/stdc++.h>
 using namespace std;
+#define int long long
    
    
-int main(){
-
+int32_t main(){
     int n;cin>>n;
-    vector<int> a(n);
-    for(int i=0;i<n;i++){
-        cin>>a[i];
-    }
 
-    
     multiset<int> s;
-    s.insert(a[0]);
 
-    for(int i=1;i<n;i++){
-        int x=*(--s.end());
-
-        if(a[i]>=x){
-            s.insert(a[i]);
-            continue;
+    for(int i=0;i<n;i++){
+        int x;cin>>x;
+        auto up=s.upper_bound(x);
+        if(up==s.end()){
+            s.insert(x);
+        }else{
+            s.erase(up);
+            s.insert(x);
         }
-
-
-        int up=*s.upper_bound(a[i]);
-        s.erase(s.find(up));
-        s.insert(a[i]);
-
     }
 
     cout<<s.size();
+
     
    
    

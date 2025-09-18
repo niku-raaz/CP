@@ -1,66 +1,60 @@
 #include<bits/stdc++.h>
 using namespace std;
-
 #define int long long
    
+   
 int32_t main(){
+    // BS
+    int n;cin>>n;
+    int k;cin>>k;
 
-    int n,k;
-    cin>>n>>k;
-    int a[n];
+    vector<int> a(n);
     for(int i=0;i<n;i++){
         cin>>a[i];
     }
 
-    // Binary Search
-    // we have to minimise the maximum subaarya sum
+    auto check=[&](int mid)->bool{
+        // try to make every aray have <=mid sum
+        int sum=0;
+        int i=0;
+        int ct=1;
+
+        while(i<n){
+            if(sum+a[i]<=mid){
+                sum+=a[i];
+                i++;
+            }else{
+                ct++;
+                sum=a[i];
+                if(sum>mid){
+                    return 0;
+                }
+                i++;
+            }
+        }
+        if(ct>k){
+            return 0;
+        }
+        return 1;
+    };
 
     int lo=0;
-    int hi=1e18;
-
+    int hi=1e16;
     int ans=hi;
 
     while(lo<=hi){
-        int mid=lo+(hi-lo)/2;
+        int mid=(lo+hi)/2;
 
-        // i have to part the array into k subbarys such that 
-        // sum of each subaaray is <=mid
-
-        int ct=1;
-
-        int sum=0;
-        bool flag=0;
-
-        for(int i=0;i<n;i++){
-            if(sum+a[i]<=mid){
-                sum+=a[i];
-            }else{
-                sum=a[i];
-                if(sum>mid){
-                    flag=1;
-                    break;
-                }
-                ct++;
-            }
-        }
-
-        if(ct<=k && !flag){
-            // good
+        if(check(mid)){
             ans=min(ans,mid);
             hi=mid-1;
-
         }else{
             lo=mid+1;
         }
 
-
-
-
-
     }
 
     cout<<ans;
-
     
    
    

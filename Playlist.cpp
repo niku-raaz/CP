@@ -1,47 +1,32 @@
 #include<bits/stdc++.h>
 using namespace std;
+#define int long long
    
    
-int main(){
-    int n;
-    cin>>n;
-    map<int,int> mp;
-    vector<int> a(n);
+int32_t main(){
+    int n;cin>>n;
+
+    map<int,int> mp;// stroes ind
+
+    int ans=0;
+    int last=0;
 
     for(int i=0;i<n;i++){
-        cin>>a[i];
-    }
-
-
-    int ans=1;
-    int left=0;
-
-    for(int i=0;i<n;i++){
-        if(mp.find(a[i])!=mp.end()){
-            // exist
-            left=max(left,mp[a[i]]+1);
-            mp[a[i]]=i;
-          
-            ans=max(ans,i-left+1);
-           // cout<<i-left+1<<" ";
-            
+        int x;cin>>x;
+        if(mp.find(x)==mp.end()){
+            mp[x]=i;
+            ans=max(ans,i-last+1);
         }else{
-            mp[a[i]]=i;
-            ans=max(ans,i-left+1);
-           // cout<<i-left+1<<" ";
+            // already exist
+            last=max(last,mp[x]+1);
+            mp[x]=i;
+            ans=max(ans,i-last+1);
 
         }
-
-      //  cout<<endl;
-        
-        
-      
-
+       // cout<<last<<" "<<i<<endl;
     }
 
     cout<<ans;
-
-
     
    
    

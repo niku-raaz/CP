@@ -1,30 +1,64 @@
 #include<bits/stdc++.h>
 using namespace std;
-   
-   
-int main(){
-    int n;cin>>n;
-    vector<int> a(n);
-    vector<int> mp(n+1);
+#define int long long
 
-    for(int i=0;i<n;i++){
-        cin>>a[i];
-        mp[a[i]]=i;
-    }
+class DSU{
+    vector<int> par;
+    public:
+    DSU(int n){
+        par.resize(n+1,0);
 
-
-    // we have map vector
-    int ans=1;
-
-    for(int i=2;i<=n;i++){
-        if(mp[i]<mp[i-1]){
-            ans++;
+        for(int i=1;i<=n;i++){
+            par[i]=i;
         }
     }
 
-    cout<<ans;
+    int findPar(int x){
+        if(par[x]==x) return x;
+        return par[x]=findPar(par[x]);
+    }
+
+    void unite(int x,int y){
+        int rx=findPar(x);
+        int ry=findPar(y);
+        par[rx]=ry;
+    }
+
+    void res(int n){
+        set<int> s;
+        for(int i=1;i<=n;i++){
+            s.insert(findPar(i));
+        }
+        cout<<s.size();
+    }
     
+
+};
    
    
+int32_t main(){
+    int n;cin>>n;    
+    // DSU
+    int a[n];
+    for(int i=0;i<n;i++){
+        cin>>a[i];
+    }
+
+    DSU d(n);
+    set<int> s;
+    for(int i=n-1;i>=0;i--){
+        int x=a[i];
+        if(s.count(x+1)){
+           d.unite(x,x+1);
+        }
+        s.insert(x);
+    }
+
+    d.res(n);
+
+
+
+
+
  return 0;
 }

@@ -1,38 +1,47 @@
 #include<bits/stdc++.h>
 using namespace std;
+#define int long long
    
    
-int main(){
-    int n;cin>>n;
-    int x;cin>>x;
+int32_t main(){
+    int n,x;
+    cin>>n>>x;
 
-    vector<pair<int,int>> a(n);
+    vector<pair<int,int>> v(n);
 
     for(int i=0;i<n;i++){
-        int y;cin>>y;
-        a[i]={y,i+1};
+        int k;cin>>k;
+        v[i]={k,i};
     }
 
-    sort(a.begin(),a.end());
+    sort(v.begin(),v.end());
 
-    int lo=0;
-    int hi=n-1;
-    while(lo<hi){
-        int sum=a[lo].first+a[hi].first;
-        if(sum==x){
-            cout<<a[lo].second<<" "<<a[hi].second;
-            return 0;
-        }else if(sum>x){
-            hi--;
-        }else{
-            lo++;
+    // brute on first
+    // BS on second
+
+    for(int i=0;i<n;i++){
+        int need=x-v[i].first;
+
+        int lo=i+1;
+        int hi=n-1;
+        while(lo<=hi){
+            int mid=(lo+hi)/2;
+
+            if(v[mid].first==need){
+                cout<<v[i].second+1<<" "<<v[mid].second+1;
+                return 0;
+            }else if(v[mid].first>need){
+                hi=mid-1;
+            }else{
+                lo=mid+1;
+
+            }
         }
-
-
     }
+
+
 
     cout<<"IMPOSSIBLE";
-
 
     
    

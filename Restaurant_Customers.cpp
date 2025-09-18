@@ -1,40 +1,36 @@
 #include<bits/stdc++.h>
 using namespace std;
+#define int long long
    
    
-int main(){
+int32_t main(){
     int n;
     cin>>n;
-    vector<int> v;
-    set<int> in;
-    for(int i=0;i<n;i++){
+
+    set<int> s;
+    vector<int> v(2*n);
+
+    for(int i=0;i<2*n;i+=2){
         int x,y;
         cin>>x>>y;
-        v.push_back(x);
-        v.push_back(y);
-        in.insert(x);
-        
+        v[i]=x;
+        v[i+1]=y;
+        s.insert(x);
     }
 
-    int ans=0;
-    int curr=0;
     sort(v.begin(),v.end());
-
-    for(auto t: v){
-        if(in.count(t)){
+    int ans=1;
+    int curr=0;
+    for(int i=0;i<2*n;i++){
+        if(s.count(v[i])){
             curr++;
-
         }else{
             curr--;
-
         }
         ans=max(ans,curr);
-
     }
 
     cout<<ans;
-    
-   
-   
+
  return 0;
 }
