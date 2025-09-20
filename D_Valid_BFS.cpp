@@ -188,42 +188,76 @@ long long binpow(long long a, long long b, long long m) {
  //  Form 3: Multisequence eg. LIS, LCS  
  //  Form 4: DP(L,R)=> DP(L,P)*DP(P,R), break in between  
  // Form 5: Game DP  (may have some pattern)  
-
-int dp[302][302][302];
- 
-int mod=1e9+7;
-int rec(int ind,int red,int blue,vector<int>& a){
-    int n=a.size();
-    if(n==ind){
-        return 1;
-    }
-    if(dp[ind][red][blue]!=-1){
-        return dp[ind][red][blue];
-    }
-
-    int ans=0;
-    
-    // not take
-    ans+=rec(ind+1,red,blue,a);
-    ans%=mod;
-
-    // take
-    if(a[ind]>=red){
-        ans+=rec(ind+1, a[ind], blue, a);
-    }
-    else if(a[ind]>=blue){
-       ans+= rec(ind+1, red, a[ind], a);
-    }
-    ans%=mod;
-    return  dp[ind][red][blue]= ans;
-}
+   
+   
    
 void solve(){
     int n;cin>>n;
-    takevec(a,n);
-    memset(dp,-1,sizeof(dp));
 
-    cout<<rec(0,0,0,a);pl;
+    vector<int> depth(n+1,0);
+
+    vector<vector<int>> g(n+1);
+
+    for(int i=1;i<n;i++){
+         int x,y;
+         cin>>x>>y;
+         g[x].pb(y);
+         g[y].pb(x);
+    }
+
+    vector<int> vis(n+1,0);
+    vector<int> par(n+1,0);
+    queue<int> q;
+    q.push(1);
+    vis[1]=1;
+
+    par[1]=1;
+    
+
+    while(!q.empty()){
+        int node=q.front();
+        q.pop();
+
+        for(auto child: g[node]){
+            if(!vis[child]){
+                par[child]=node;
+                depth[child]=depth[node]+1;
+                vis[child]=1;
+                q.push(child);
+            }
+        }
+    }
+
+    
+    bool good=1;
+    takevec(v,n);
+
+    vector<int> ind(n+1,0);
+
+    for(int i=0;i<n;i++){
+        ind[v[i]]=i;
+    }
+
+    if(v[0]!=1){
+        pn;
+        return;
+    }
+
+    for(int i=1;i<n;i++){
+        if(depth[v[i-1]]>depth[v[i]]){
+            pn;
+            return;
+        }
+        if(ind[par[v[i-1]]]>ind[par[v[i]]]){
+            pn;
+            return;
+        }
+    }
+
+    py;
+
+
+
 
         
 }
@@ -236,7 +270,7 @@ int32_t main(){
    // freopen("output.txt","w",stdout);
     
         int test_case=1; 
-        cin>>test_case; 
+       // cin>>test_case; 
         for(int xyz=1;xyz<=test_case;xyz++){
            // cout<<"Case# :"<<xyz<<" ";
              solve(); };        

@@ -188,42 +188,77 @@ long long binpow(long long a, long long b, long long m) {
  //  Form 3: Multisequence eg. LIS, LCS  
  //  Form 4: DP(L,R)=> DP(L,P)*DP(P,R), break in between  
  // Form 5: Game DP  (may have some pattern)  
-
-int dp[302][302][302];
- 
-int mod=1e9+7;
-int rec(int ind,int red,int blue,vector<int>& a){
-    int n=a.size();
-    if(n==ind){
-        return 1;
-    }
-    if(dp[ind][red][blue]!=-1){
-        return dp[ind][red][blue];
-    }
-
-    int ans=0;
-    
-    // not take
-    ans+=rec(ind+1,red,blue,a);
-    ans%=mod;
-
-    // take
-    if(a[ind]>=red){
-        ans+=rec(ind+1, a[ind], blue, a);
-    }
-    else if(a[ind]>=blue){
-       ans+= rec(ind+1, red, a[ind], a);
-    }
-    ans%=mod;
-    return  dp[ind][red][blue]= ans;
-}
+   
+   
    
 void solve(){
     int n;cin>>n;
-    takevec(a,n);
-    memset(dp,-1,sizeof(dp));
+    int k;cin>>k;
 
-    cout<<rec(0,0,0,a);pl;
+    vector<vector<int>> g(n+1);
+    for(int i=2;i<=n;i++){
+        int x;cin>>x;
+        g[x].push_back(i);
+    }
+    //
+    //
+    //
+
+    vector<int> h(n+1,0);
+    int ct=0;
+    int lim=n;
+
+    auto dfs=[&](int node,auto && dfs)->void{
+             int mx=0;
+
+             for(auto child: g[node]){
+                dfs(child,dfs);
+                mx=max(mx,h[child]+1);
+             }
+
+             h[node]=mx;
+
+             if(node!=1 && h[node]==lim){
+                mx=0;
+                for(auto child: g[node]){
+                    if(h[child]==lim-1){
+                        ct++;
+                    }else{
+                        mx=max(mx,h[child]+1);
+                    }
+                }
+                h[node]=mx;
+             }
+
+    };
+
+    int lo=1;
+    int hi=n-1;
+
+    int ans=hi;
+
+    while(lo<=hi){
+        int mid=(lo+hi)/2;
+
+        for(int i=0;i<=n;i++){
+            h[i]=0;
+        }
+        ct=0;
+        lim=mid;
+
+        dfs(1,dfs);
+
+        // 
+
+        if(ct<=k){
+            ans=min(ans,mid);
+            hi=mid-1;
+        }else{
+            lo=mid+1;
+        }
+    }
+
+    cout<<ans;pl;
 
         
 }

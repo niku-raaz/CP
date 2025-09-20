@@ -188,42 +188,56 @@ long long binpow(long long a, long long b, long long m) {
  //  Form 3: Multisequence eg. LIS, LCS  
  //  Form 4: DP(L,R)=> DP(L,P)*DP(P,R), break in between  
  // Form 5: Game DP  (may have some pattern)  
-
-int dp[302][302][302];
- 
-int mod=1e9+7;
-int rec(int ind,int red,int blue,vector<int>& a){
-    int n=a.size();
-    if(n==ind){
-        return 1;
-    }
-    if(dp[ind][red][blue]!=-1){
-        return dp[ind][red][blue];
-    }
-
-    int ans=0;
-    
-    // not take
-    ans+=rec(ind+1,red,blue,a);
-    ans%=mod;
-
-    // take
-    if(a[ind]>=red){
-        ans+=rec(ind+1, a[ind], blue, a);
-    }
-    else if(a[ind]>=blue){
-       ans+= rec(ind+1, red, a[ind], a);
-    }
-    ans%=mod;
-    return  dp[ind][red][blue]= ans;
-}
+   
+   
    
 void solve(){
     int n;cin>>n;
-    takevec(a,n);
-    memset(dp,-1,sizeof(dp));
 
-    cout<<rec(0,0,0,a);pl;
+    int ct=0;
+    vector<int> vis(n+1,0);
+
+    vector<pair<int,int>> v;
+
+    for(int i=0;i<n;i++){
+        take(a);
+        take(b);
+
+        if(vis[a]==0 && vis[b]==0 && a!=b){
+            ct+=2;
+            vis[a]=1;
+            vis[b]=1;
+        }else{
+            v.push_back({a,b});
+        }
+    }
+
+    if(ct!=n){
+        pN;
+        return;
+    }
+
+    for(int i=0;i<=n;i++){
+        vis[i]=0;
+    }
+    ct=0;
+    for(int i=0;i<v.size();i++){
+        int a=v[i].first;
+        int b=v[i].second;
+
+        if(vis[a]==0 && vis[b]==0 && a!=b){
+            ct+=2;
+            vis[a]=1;
+            vis[b]=1;
+        }
+    }
+    if(ct!=n){
+        pN;
+        return;
+    }
+
+    pY;
+
 
         
 }

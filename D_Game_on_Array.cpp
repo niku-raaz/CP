@@ -188,43 +188,79 @@ long long binpow(long long a, long long b, long long m) {
  //  Form 3: Multisequence eg. LIS, LCS  
  //  Form 4: DP(L,R)=> DP(L,P)*DP(P,R), break in between  
  // Form 5: Game DP  (may have some pattern)  
-
-int dp[302][302][302];
- 
-int mod=1e9+7;
-int rec(int ind,int red,int blue,vector<int>& a){
-    int n=a.size();
-    if(n==ind){
-        return 1;
-    }
-    if(dp[ind][red][blue]!=-1){
-        return dp[ind][red][blue];
-    }
-
-    int ans=0;
-    
-    // not take
-    ans+=rec(ind+1,red,blue,a);
-    ans%=mod;
-
-    // take
-    if(a[ind]>=red){
-        ans+=rec(ind+1, a[ind], blue, a);
-    }
-    else if(a[ind]>=blue){
-       ans+= rec(ind+1, red, a[ind], a);
-    }
-    ans%=mod;
-    return  dp[ind][red][blue]= ans;
-}
+   
+   
    
 void solve(){
     int n;cin>>n;
-    takevec(a,n);
-    memset(dp,-1,sizeof(dp));
+    // fisrt use odd
+    // numbers
+    map<int,int> mp;
+    for(int i=0;i<n;i++){
+        take(x);
+        mp[x]++;
+    }
 
-    cout<<rec(0,0,0,a);pl;
+    int ansA=0;
+    int ansB=0;
+    vector<pair<int,int>> v;
 
+    for(auto it: mp){
+        if(it.first&1){
+            v.push_back({it.first,it.second});
+        }
+    }
+
+    sort(v.begin(),v.end(),[&](pair<int,int>& a,pair<int,int>& b){
+        return a.second > b.second;
+    });
+
+    bool chn=0;
+
+    //chn=0 ->> alice
+    // 1 -> bob
+
+
+    for(int i=0;i<v.size();i++){
+        if(chn==0){
+
+            int x=v[i].first;
+            int f=v[i].second;
+            int b=x/2;
+            int a=x-b;
+
+            ansA+=(a*f);
+            ansB+=(b*f);
+
+        }else{
+           // py;
+
+            int x=v[i].first;
+            int f=v[i].second;
+            int a=x/2;
+            int b=x-a;
+
+            ansA+=(a*f);
+            ansB+=(b*f);
+
+        }
+        //cout<<ansA<<" "<<ansB;pl;
+        chn=1-chn;
+        
+    }
+
+    // equal milega
+    // cout<<ansA<<" "<<ansB;pl;
+
+    for(auto it: mp){
+        if(it.first%2==0){
+            ansA+=(it.first/2)*(it.second);
+            ansB+=(it.first/2)*(it.second);
+
+        }
+    }
+
+    cout<<ansA<<" "<<ansB;pl;
         
 }
    

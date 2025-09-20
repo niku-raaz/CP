@@ -188,42 +188,35 @@ long long binpow(long long a, long long b, long long m) {
  //  Form 3: Multisequence eg. LIS, LCS  
  //  Form 4: DP(L,R)=> DP(L,P)*DP(P,R), break in between  
  // Form 5: Game DP  (may have some pattern)  
-
-int dp[302][302][302];
- 
-int mod=1e9+7;
-int rec(int ind,int red,int blue,vector<int>& a){
-    int n=a.size();
-    if(n==ind){
-        return 1;
-    }
-    if(dp[ind][red][blue]!=-1){
-        return dp[ind][red][blue];
-    }
-
-    int ans=0;
-    
-    // not take
-    ans+=rec(ind+1,red,blue,a);
-    ans%=mod;
-
-    // take
-    if(a[ind]>=red){
-        ans+=rec(ind+1, a[ind], blue, a);
-    }
-    else if(a[ind]>=blue){
-       ans+= rec(ind+1, red, a[ind], a);
-    }
-    ans%=mod;
-    return  dp[ind][red][blue]= ans;
-}
+   
+   
    
 void solve(){
-    int n;cin>>n;
-    takevec(a,n);
-    memset(dp,-1,sizeof(dp));
+    take(x);
+    take(y);
+    if(x<y){
+        cout<<2;pl;
+        return;
+    }
+    if(y==1){
+        cout<<-1;pl;
+        return;
+    }
 
-    cout<<rec(0,0,0,a);pl;
+    // 
+    // if i canpart x int ot
+    // x1<y and x2> y
+
+    int mid=x/2;
+    int pos=1+y+1;
+
+    if(x>=pos && y!=1){
+        cout<<3;pl;
+        return;
+    }
+
+    cout<<-1;pl;
+    return;
 
         
 }
