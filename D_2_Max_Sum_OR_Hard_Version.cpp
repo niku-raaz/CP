@@ -188,141 +188,131 @@ long long binpow(long long a, long long b, long long m) {
  //  Form 3: Multisequence eg. LIS, LCS  
  //  Form 4: DP(L,R)=> DP(L,P)*DP(P,R), break in between  
  // Form 5: Game DP  (may have some pattern)  
+
+  //  Form 4: DP(L,R)=> DP(L,P)*DP(P,R), break in between  
+ // Form 5: Game DP  (may have some pattern)  
    
-   
-   
-void solve(){
-    // start again
-    int n;cin>>n;
-    string s ;cin>>s;
+int hbit(int n){
+    int hi=0;
 
-
-    // think som ething better
-
-    // take positions of 0
-
-    vector<int> v;
-    int ct=0;
-
-    for(int i=0;i<n;i++){
-        if(s[i]=='0'){
-            v.push_back(i);
-            ct++;
+    for(int i=31;i>=0;i--){
+        if(n&(1<<i)){
+            hi=i;
+            break;
         }
     }
 
-    // if
-    if(ct==0 || ct==n){
-        pY;
+    return hi;
+
+}
+int get(int n){
+    int hi=0;
+
+    for(int i=31;i>=0;i--){
+        if(n&(1<<i)){
+            hi=i;
+            break;
+        }
+    }
+    int mx=(1<<hi);
+
+    return n-mx+1;
+    
+}
+
+
+void rec(int l,int n,vector<int>& ans){
+
+    if(n<l){
+        return;
+    }
+    if(n==l){
+        ans.push_back(l);
         return;
     }
 
-    // 
-
-    // for each index in s ==0 
-    // assign l and R
-
-    // by choice
-
-    vector<int> left(n,-1);
-    vector<int> right(n,-1);
-
-    for(int j=0;j<v.size();j++){
-        int i=v[j];
-        // 
-        // I have two choice
-        // but optimise the choice
-
-        // Developed and deployed the transition from AWS Lambda 
-        // Experience
-        //
-
-
-        
-        if(i==0){
-            // starting point
-            left[i]=1;
-            right[i]=1;
-        }
-        // 010
-        // do left if prev one is right
-
-        if(j>0){
-            int pv=v[j-1];
-
-        }
-
-
-        // 01
-        // 110
-        // 00
-
-        // 
-        //
-        // 
-    }
-
-
-    // bad approach
     //
 
-    // // DP ??
+    int batch=2*get(n);
+    // it people k process kro
+    int lo=n-batch+1;
 
-    // // buffere mein last choice
-    // int last=-1;
+    if(lo<l){
+        // prolematic
 
-    // // last 0-> left
-    // // 1 -> right
-    // // 3 -> do anything 
-    // int last0=-1;
+        // find x such that is is processable
+        int x=n;
+        while(1 && x>=l){
+            int bb=2*get(x);
+            int y=x-bb+1;
 
-    // for(int i=0;i<n;i++){
-    //     if(s[i]=='0'){
-    //         // can L or R
-    //         // make ir R
-
-    //         if(last==-1){
-    //             // can start with both
-    //             last=3;
-    //         }else{
-
-    //             // 
-    //             if(s[i]==s[i-1]){
-    //                 // no issue
-    //                 // do anything 
-    //                 last=3;
-    //             }else{
-    //                 // // prev is 1
-    //                 if(last0==-1){
-    //                     // this is the firts 1
-    //                     last=3;
-    //                 }else{
-
-    //                     // 
-    //                     if(i-last0>2){
-    //                         // problematics
-    //                         // 
-    //                         // make current to left
-    //                         // ans the last one to right
-
-    //                         if(last==3 || last=)
-    //                     }
-    //                 }
+            if(y>=l){
+                break;
+            }else{
+                x--;
+            }
+        }
 
 
-    //             }
+        // This Part has to be handled
+        // x+1 to n
+        // s
 
-    //         }
+        vector<int> tmp;
 
-    //     last0=i;
+        int hb=hbit(n);
+        int hnum=(1<<hb);
+        
+        //
+        //
+        rec(x+1-hnum,n-hnum,tmp);
 
 
-    //     }else{
-    //         // no problem
-    //     }
-    // }
+        for(auto el: tmp){
+            ans.pb((hnum+el));
+        }
+
+        rec(l,x,ans);
 
 
+    }else{
+        for(int i=n;i>(n-batch);i--){
+            ans.push_back(lo);
+            lo++;
+       }
+
+       rec(l,n-batch,ans);
+
+    }
+
+    
+
+
+
+}
+   
+   
+void solve(){
+    take(l);
+    take(r);
+
+    vector<int> a;
+
+    rec(l,r,a);
+    int ans=0;
+
+    reverse(a.begin(),a.end());
+    int num=l;
+
+    for(int i=0;i<a.size();i++){
+        ans+=(num|a[i]);
+        num++;
+    }
+
+    cout<<ans;pl;
+    show(a);
+
+    a.clear();
 
 
         

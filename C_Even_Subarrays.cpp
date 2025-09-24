@@ -24,9 +24,8 @@ using namespace std;
 //}   
    
    
-   
+ 
 #define int long long 
-#define ll long long 
 #define nl cout<<endl; 
 #define raaz ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
 #define take(n) int n; cin>>n;
@@ -188,144 +187,36 @@ long long binpow(long long a, long long b, long long m) {
  //  Form 3: Multisequence eg. LIS, LCS  
  //  Form 4: DP(L,R)=> DP(L,P)*DP(P,R), break in between  
  // Form 5: Game DP  (may have some pattern)  
-   
-   
+
    
 void solve(){
-    // start again
     int n;cin>>n;
-    string s ;cin>>s;
+    takevec(a,n);
 
+    int tot=(n*(n+1))/2;
+    int ans=0;
 
-    // think som ething better
+    int x=0;
+    vector<int> mp(2*n+1,0);
 
-    // take positions of 0
-
-    vector<int> v;
-    int ct=0;
-
+    mp[0]++;
+    //cout<<v.size();pl;
     for(int i=0;i<n;i++){
-        if(s[i]=='0'){
-            v.push_back(i);
-            ct++;
-        }
-    }
+        x^=a[i];
+        for(int j=0;j*j<2*n;j++){
 
-    // if
-    if(ct==0 || ct==n){
-        pY;
-        return;
-    }
-
-    // 
-
-    // for each index in s ==0 
-    // assign l and R
-
-    // by choice
-
-    vector<int> left(n,-1);
-    vector<int> right(n,-1);
-
-    for(int j=0;j<v.size();j++){
-        int i=v[j];
-        // 
-        // I have two choice
-        // but optimise the choice
-
-        // Developed and deployed the transition from AWS Lambda 
-        // Experience
-        //
-
-
-        
-        if(i==0){
-            // starting point
-            left[i]=1;
-            right[i]=1;
-        }
-        // 010
-        // do left if prev one is right
-
-        if(j>0){
-            int pv=v[j-1];
+            if((x^(j*j))<2*n){
+                ans+=mp[(x^(j*j))];
+            }
 
         }
-
-
-        // 01
-        // 110
-        // 00
-
-        // 
-        //
-        // 
+        mp[x]++; // o(1)
     }
+    // n*600
+    cout<<tot-ans;pl;
 
+    
 
-    // bad approach
-    //
-
-    // // DP ??
-
-    // // buffere mein last choice
-    // int last=-1;
-
-    // // last 0-> left
-    // // 1 -> right
-    // // 3 -> do anything 
-    // int last0=-1;
-
-    // for(int i=0;i<n;i++){
-    //     if(s[i]=='0'){
-    //         // can L or R
-    //         // make ir R
-
-    //         if(last==-1){
-    //             // can start with both
-    //             last=3;
-    //         }else{
-
-    //             // 
-    //             if(s[i]==s[i-1]){
-    //                 // no issue
-    //                 // do anything 
-    //                 last=3;
-    //             }else{
-    //                 // // prev is 1
-    //                 if(last0==-1){
-    //                     // this is the firts 1
-    //                     last=3;
-    //                 }else{
-
-    //                     // 
-    //                     if(i-last0>2){
-    //                         // problematics
-    //                         // 
-    //                         // make current to left
-    //                         // ans the last one to right
-
-    //                         if(last==3 || last=)
-    //                     }
-    //                 }
-
-
-    //             }
-
-    //         }
-
-    //     last0=i;
-
-
-    //     }else{
-    //         // no problem
-    //     }
-    // }
-
-
-
-
-        
 }
    
    
@@ -334,6 +225,9 @@ int32_t main(){
         raaz
    // freopen("input.txt","r",stdin);
    // freopen("output.txt","w",stdout);
+
+   
+      
     
         int test_case=1; 
         cin>>test_case; 

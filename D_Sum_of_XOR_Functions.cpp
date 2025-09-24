@@ -192,139 +192,7 @@ long long binpow(long long a, long long b, long long m) {
    
    
 void solve(){
-    // start again
-    int n;cin>>n;
-    string s ;cin>>s;
-
-
-    // think som ething better
-
-    // take positions of 0
-
-    vector<int> v;
-    int ct=0;
-
-    for(int i=0;i<n;i++){
-        if(s[i]=='0'){
-            v.push_back(i);
-            ct++;
-        }
-    }
-
-    // if
-    if(ct==0 || ct==n){
-        pY;
-        return;
-    }
-
-    // 
-
-    // for each index in s ==0 
-    // assign l and R
-
-    // by choice
-
-    vector<int> left(n,-1);
-    vector<int> right(n,-1);
-
-    for(int j=0;j<v.size();j++){
-        int i=v[j];
-        // 
-        // I have two choice
-        // but optimise the choice
-
-        // Developed and deployed the transition from AWS Lambda 
-        // Experience
-        //
-
-
-        
-        if(i==0){
-            // starting point
-            left[i]=1;
-            right[i]=1;
-        }
-        // 010
-        // do left if prev one is right
-
-        if(j>0){
-            int pv=v[j-1];
-
-        }
-
-
-        // 01
-        // 110
-        // 00
-
-        // 
-        //
-        // 
-    }
-
-
-    // bad approach
-    //
-
-    // // DP ??
-
-    // // buffere mein last choice
-    // int last=-1;
-
-    // // last 0-> left
-    // // 1 -> right
-    // // 3 -> do anything 
-    // int last0=-1;
-
-    // for(int i=0;i<n;i++){
-    //     if(s[i]=='0'){
-    //         // can L or R
-    //         // make ir R
-
-    //         if(last==-1){
-    //             // can start with both
-    //             last=3;
-    //         }else{
-
-    //             // 
-    //             if(s[i]==s[i-1]){
-    //                 // no issue
-    //                 // do anything 
-    //                 last=3;
-    //             }else{
-    //                 // // prev is 1
-    //                 if(last0==-1){
-    //                     // this is the firts 1
-    //                     last=3;
-    //                 }else{
-
-    //                     // 
-    //                     if(i-last0>2){
-    //                         // problematics
-    //                         // 
-    //                         // make current to left
-    //                         // ans the last one to right
-
-    //                         if(last==3 || last=)
-    //                     }
-    //                 }
-
-
-    //             }
-
-    //         }
-
-    //     last0=i;
-
-
-    //     }else{
-    //         // no problem
-    //     }
-    // }
-
-
-
-
+    
         
 }
    
@@ -336,7 +204,7 @@ int32_t main(){
    // freopen("output.txt","w",stdout);
     
         int test_case=1; 
-        cin>>test_case; 
+       // cin>>test_case; 
         for(int xyz=1;xyz<=test_case;xyz++){
            // cout<<"Case# :"<<xyz<<" ";
              solve(); };        

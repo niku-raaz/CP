@@ -188,141 +188,75 @@ long long binpow(long long a, long long b, long long m) {
  //  Form 3: Multisequence eg. LIS, LCS  
  //  Form 4: DP(L,R)=> DP(L,P)*DP(P,R), break in between  
  // Form 5: Game DP  (may have some pattern)  
-   
-   
-   
-void solve(){
-    // start again
-    int n;cin>>n;
-    string s ;cin>>s;
 
+ int dp[102][100005];
+bool rec(int ind,int sum,vector<int>& a){
 
-    // think som ething better
-
-    // take positions of 0
-
-    vector<int> v;
-    int ct=0;
-
-    for(int i=0;i<n;i++){
-        if(s[i]=='0'){
-            v.push_back(i);
-            ct++;
-        }
+    // 
+    if(sum==0){
+        return 1;
+    }
+    if(ind==a.size()){
+        return 0;
+    }
+    if(dp[ind][sum]!=-1){
+        return dp[ind][sum];
+    }
+    bool ans=rec(ind+1,sum,a);
+    if(sum>=a[ind]){
+        ans|=rec(ind+1,sum-a[ind],a);
     }
 
-    // if
-    if(ct==0 || ct==n){
-        pY;
+    return dp[ind][sum]=ans;
+
+}  
+   
+void solve(){
+    take(n);
+    takevec(a,n);
+    int mn=1e9;
+
+    int sum=0;
+
+    for(int i=0;i<n;i++){
+        sum+=a[i];
+        mn=min(mn,a[i]);
+    }
+
+    // make dp
+
+    if(sum&1){
+        cout<<0;pl;
         return;
     }
 
-    // 
+  //  cout<<a[20];pl;
 
-    // for each index in s ==0 
-    // assign l and R
+    memset(dp,-1,sizeof(dp));
 
-    // by choice
-
-    vector<int> left(n,-1);
-    vector<int> right(n,-1);
-
-    for(int j=0;j<v.size();j++){
-        int i=v[j];
-        // 
-        // I have two choice
-        // but optimise the choice
-
-        // Developed and deployed the transition from AWS Lambda 
-        // Experience
-        //
-
-
-        
-        if(i==0){
-            // starting point
-            left[i]=1;
-            right[i]=1;
+    if(rec(0,(sum/2),a)){
+        cout<<1;pl;
+        for(int i=0;i<n;i++){
+            if(a[i]&1){
+                cout<<i+1;pl;
+                return;
+            }
         }
-        // 010
-        // do left if prev one is right
-
-        if(j>0){
-            int pv=v[j-1];
-
+        // all are even
+        // then think
+        while(1){
+            for(int i=0;i<n;i++){
+                a[i]=a[i]/2;
+                if(a[i]&1){
+                    cout<<i+1;pl;
+                    return;
+                }
+            }
         }
 
-
-        // 01
-        // 110
-        // 00
-
-        // 
-        //
-        // 
+    }else{
+        cout<<0;pl;
     }
-
-
-    // bad approach
-    //
-
-    // // DP ??
-
-    // // buffere mein last choice
-    // int last=-1;
-
-    // // last 0-> left
-    // // 1 -> right
-    // // 3 -> do anything 
-    // int last0=-1;
-
-    // for(int i=0;i<n;i++){
-    //     if(s[i]=='0'){
-    //         // can L or R
-    //         // make ir R
-
-    //         if(last==-1){
-    //             // can start with both
-    //             last=3;
-    //         }else{
-
-    //             // 
-    //             if(s[i]==s[i-1]){
-    //                 // no issue
-    //                 // do anything 
-    //                 last=3;
-    //             }else{
-    //                 // // prev is 1
-    //                 if(last0==-1){
-    //                     // this is the firts 1
-    //                     last=3;
-    //                 }else{
-
-    //                     // 
-    //                     if(i-last0>2){
-    //                         // problematics
-    //                         // 
-    //                         // make current to left
-    //                         // ans the last one to right
-
-    //                         if(last==3 || last=)
-    //                     }
-    //                 }
-
-
-    //             }
-
-    //         }
-
-    //     last0=i;
-
-
-    //     }else{
-    //         // no problem
-    //     }
-    // }
-
-
 
 
         
@@ -336,7 +270,7 @@ int32_t main(){
    // freopen("output.txt","w",stdout);
     
         int test_case=1; 
-        cin>>test_case; 
+        //cin>>test_case; 
         for(int xyz=1;xyz<=test_case;xyz++){
            // cout<<"Case# :"<<xyz<<" ";
              solve(); };        
