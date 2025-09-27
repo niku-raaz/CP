@@ -189,31 +189,21 @@ long long binpow(long long a, long long b, long long m) {
  //  Form 4: DP(L,R)=> DP(L,P)*DP(P,R), break in between  
  // Form 5: Game DP  (may have some pattern)  
    
-int lcm(int x,int y){
-    int p=(x*y);
-    int g=__gcd(x,y);
-
-    return p/g;
-}  
+   
    
 void solve(){
     take(n);
-    takevec(a,n);
+    take(m);
+    string s;cin>>s;
+    takevec(a,m);
 
-    int ans=1;
+    set<int> ans;
 
-    for(int i=1;i<n;i++){
-        if(a[i]%a[i-1]){
-            int g=__gcd(a[i],a[i-1]);
-            ans=lcm(ans,(a[i-1]/g));
-           // cout<<g<<" ";
-        }
+    for(int i=0;i<n;i++){
+        ans.insert(a[i]);
     }
 
-    //pl;
-
-    cout<<ans;pl;
-
+    
         
 }
    

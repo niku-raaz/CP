@@ -188,32 +188,99 @@ long long binpow(long long a, long long b, long long m) {
  //  Form 3: Multisequence eg. LIS, LCS  
  //  Form 4: DP(L,R)=> DP(L,P)*DP(P,R), break in between  
  // Form 5: Game DP  (may have some pattern)  
-   
-int lcm(int x,int y){
-    int p=(x*y);
-    int g=__gcd(x,y);
+const int N=200005;
+int fact[N+1];
+int invF[N+1];
+int mod=998244353;
 
-    return p/g;
-}  
+int nCr(int n,int r){
+    int ans=fact[n];
+    ans%=mod;
+    ans*=invF[r];
+    ans%=mod;
+    ans*=invF[(n-r)];
+    ans%=mod;
+
+    return ans;
+}
+
+
    
 void solve(){
     take(n);
     takevec(a,n);
+    vector<int>  v(n,0);
+    int sum=0;
+    for(int i=0;i<n/2;i++){
+            v[i]=2;
+    }
+    if(n&1){
+        // n=5
+        // 2 2 1 0 0
+        v[(n/2)]=1;
+
+    }
+    //show(v);
+
+    
 
     int ans=1;
 
-    for(int i=1;i<n;i++){
-        if(a[i]%a[i-1]){
-            int g=__gcd(a[i],a[i-1]);
-            ans=lcm(ans,(a[i-1]/g));
-           // cout<<g<<" ";
+    int mid=(n-1)/2;
+
+    for(int i=0;i<n;i++){
+        sum+=a[i];
+
+        if(i>mid){
+            if(a[i]){
+                cout<<0;pl;
+                return;
+            }
         }
     }
 
-    //pl;
+    if(sum>n){
+        cout<<0;pl;
+        return;
+    }
+
+    // show(v);
+    // show(a);
+
+    for(int i=mid;i>=0;i--){
+
+        int diff=v[i]-a[i];
+        if(diff<0){
+            cout<<0;pl;
+            return;
+        }
+        if(diff==0){
+            continue;
+        }
+
+       // cout<<v[i]<<" "<<diff;pl;
+
+        ans*=nCr(v[i],diff);
+        ans%=mod;
+        if(i-1>=0){
+           v[i-1]+=diff;
+        }else{
+            cout<<0;pl;
+            return;
+        }
+        
+
+    }
+   // pl;
+     // this is the probllem
+    //cout<<nCr(2,2);pl;
+   // cout<<fact[2]<<" "<<invF[2];pl;
 
     cout<<ans;pl;
+   // cout<<invF[0];pl;
 
+
+    
         
 }
    
@@ -223,6 +290,16 @@ int32_t main(){
         raaz
    // freopen("input.txt","r",stdin);
    // freopen("output.txt","w",stdout);
+
+        fact[0]=1;
+        for(int i=1;i<=N;i++){
+            fact[i]=fact[i-1]*i;
+            fact[i]%=mod;
+        }
+
+        for(int i=0;i<=N;i++){
+            invF[i]=binpow(fact[i],mod-2,mod);
+        }
     
         int test_case=1; 
         cin>>test_case; 

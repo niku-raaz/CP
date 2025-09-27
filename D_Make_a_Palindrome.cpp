@@ -196,14 +196,62 @@ void solve(){
 
     take(n); take(k);
     takevec(a,n);
+    if(k==1){
+      pY;
+      return;
+    }
 
-    // need to find if there is a subsequnce of size k-1 that is palindromic
+    //
+    vector<int> b=a;
+    sortv(b);
+    int cutoff=b[k-2];
 
-   // any number of operation
+    vector<int> c;
 
-   // lr select kro then kth smalleset number of delete kro
+    for(auto x: a){
+      if(x<=cutoff){
+         // cant be deleted
+         c.pb(x);
+      }
+    }
 
-   // kya haal chal hai
+    int ex=c.size()-(k-1);
+    int l=0;
+    int r=c.size()-1;
+    
+    while(l<r){
+      if(c[l]!=c[r]){
+         // delete
+         if(ex==0){
+            pN;
+            return;
+         }
+         if(c[l]==cutoff){
+            // deleted this
+            l++;
+            ex--;
+            //
+
+         }else if(c[r]==cutoff){
+            r--;
+            ex--;
+         }else{
+            pN;
+            return;
+         }
+      }else{
+         l++;
+         r--;
+      }
+    }
+
+    pY;
+
+
+
+
+
+
    
         
 }

@@ -189,30 +189,86 @@ long long binpow(long long a, long long b, long long m) {
  //  Form 4: DP(L,R)=> DP(L,P)*DP(P,R), break in between  
  // Form 5: Game DP  (may have some pattern)  
    
-int lcm(int x,int y){
-    int p=(x*y);
-    int g=__gcd(x,y);
-
-    return p/g;
-}  
+   
    
 void solve(){
+    // learning
+    // In sliding window problem
+    // of some freq==k
+    // find answer of freq>=k
+    // find answer for freq>=k+1
+    // ans= ans1-ans2
+
+    // choose traversal order such that
+    // its easy to handle
+
     take(n);
+    take(kk);
+    take(lo);
+    take(hi);
+
     takevec(a,n);
 
-    int ans=1;
+    auto f=[&](int k)->int{
+            // find # of subarrays
+            // such that their len>=lo and len<=hi
+            // #of unique elements are >=k
 
-    for(int i=1;i<n;i++){
-        if(a[i]%a[i-1]){
-            int g=__gcd(a[i],a[i-1]);
-            ans=lcm(ans,(a[i-1]/g));
-           // cout<<g<<" ";
-        }
-    }
+            map<int,int> mp;
 
-    //pl;
+            int r=0;
+            int ans=0;
 
-    cout<<ans;pl;
+            for(int l=0;l<n;l++){
+
+                // starting with this l
+                // find the min r such that mp.size()>=k
+
+                while(mp.size()<k && r<n){
+                    mp[a[r]]++;
+                    r++;
+                }
+
+                
+                
+                
+                // now we know 
+                // mp.size()>=k
+                // fo this r
+                // so for all R>=r
+                // this is true
+
+                // (l ..... (r-1......n-1)) is valid on basis of frequency
+                // ..... left..... right...
+                if(mp.size()==k){
+                    //py;
+                    //cout<<r;pl;
+                    int left=l+lo-1;
+                    int right=l+hi-1;
+
+                    int L=max(left,r-1);
+                    int R=min(right,n-1);
+                    ans+=max(0LL,(R-L+1));
+                }
+                
+
+                mp[a[l]]--;
+
+                if(mp[a[l]]==0){
+                    mp.erase(a[l]);
+                }
+            }
+
+            
+
+
+           return ans;
+    };
+
+    int ans1=f(kk);
+    int ans2=f(kk+1);
+
+    cout<<ans1-ans2;pl;
 
         
 }

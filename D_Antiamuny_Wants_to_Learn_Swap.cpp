@@ -191,7 +191,81 @@ long long binpow(long long a, long long b, long long m) {
    
    
    
-void solve(){
+void solve(){ 
+   // find the NEXT Smaller elements
+
+   take(n); take(q);
+   takevec(a,n);
+
+   stack<int> s;
+
+   vector<int> nse(n,-1);
+
+   for(int i=n-1;i>=0;i--){
+      while(!s.empty() && a[s.top()]>a[i] ){
+         s.pop();
+      }
+      if(!s.empty()){
+         nse[i]=s.top();
+      }
+      s.push(i);
+   }
+
+   vector<int> pge(n,-1);
+
+   stack<int> s2;
+
+   for(int i=0;i<n;i++){
+      while(!s2.empty() && a[s2.top()]<a[i]){
+         s2.pop();
+      }
+      if(!s2.empty()){
+         pge[i]=s2.top();
+      }
+      s2.push(i);
+   }
+
+   // 
+
+   vector<int> minR(n,n+1);
+
+   for(int i=0;i<n;i++){
+      if(nse[i]!=-1 && pge[i]!=-1){
+         // 
+         minR[pge[i]]=min(minR[pge[i]],nse[i]);
+      }
+   }
+
+   // take sufmx
+   vector<int> sfx(n,n+1);
+   sfx[n-1]=minR[n-1];
+
+   for(int i=n-2;i>=0;i--){
+      sfx[i]=min(sfx[i+1],minR[i]);
+   }
+
+   while(q--){
+      take(l);
+      take(r);
+      l--;
+      r--;
+
+      if(sfx[l]<=r){
+         pN;
+      }else{
+         pY;
+      }
+   }
+
+
+
+
+
+   
+
+
+   
+
     
         
 }
