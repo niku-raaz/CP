@@ -7,7 +7,25 @@
 #include <cstdio>
 using namespace std;
    
-
+   
+   
+   
+//#include <ext/pb_ds/assoc_container.hpp> // Common file   
+//#include <ext/pb_ds/tree_policy.hpp> // Including tree_order_statistics_node_update   
+//#include <ext/pb_ds/detail/standard_policies.hpp>   
+   
+//using namespace __gnu_pbds;  
+//typedef tree<int,null_type,less<int>,rb_tree_tag,tree_order_statistics_node_update> ordered_set;   
+    
+//void myerase(ordered_set &t, int v){   
+//     int rank = t.order_of_key(v);//Number of elements that are less than v in t   
+//     ordered_set::iterator it = t.find_by_order(rank); //Iterator that points to the (rank+1)th element in t   
+//     t.erase(it);  
+//}   
+   
+   
+   
+#define int long long 
 #define ll long long 
 #define nl cout<<endl; 
 #define raaz ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
@@ -170,100 +188,11 @@ long long binpow(long long a, long long b, long long m) {
  //  Form 3: Multisequence eg. LIS, LCS  
  //  Form 4: DP(L,R)=> DP(L,P)*DP(P,R), break in between  
  // Form 5: Game DP  (may have some pattern)  
-
-
-int mod=998244353;
-
-
-void dfs(int node,int par,vector<vector<int>>& g,vector<int>& d){
-
-    for(auto child: g[node]){
-        if(child==par){
-            continue;
-        }
-        d[child]=d[node]+1;
-        dfs(child,node,g,d);
-    }
-
- }
-
-
-int DFS(int node,int par,vector<vector<int>>& g,vector<int>& d,vector<vector<int>>& level,vector<int>& dp,vector<int>& parent){
-
-    int ans=1;
-
-    if(dp[node]!=-1){
-        return dp[node];  
-    }
-
-    
-
-        // optimise this part
-        // 
-
-        for(int possible : level[d[node]+1]){
-
-            if(parent[possible]!=node){
-                ans=(ans+0LL+DFS(possible,node,g,d,level,dp,parent))%mod;
-            }
-        }
-
-   // sum[d[node]]+=ans; // I have calculated the sum at each level
-    return dp[node]= ans;
-}
-
-
-
+   
+   
    
 void solve(){
-    take(n);
-    vector<int> par(n,0);
-    vector<int> dep(n,0);
-    vector<vector<int>> nodes(n);
-    for(int i=1;i<n;i++){
-        cin>>par[i];
-        par[i]--;
-        dep[i]=dep[par[i]]+1;
-        nodes[dep[i]].push_back(i);
-    }
-
-    vector<int> dp(n,0),tot(n,0);
-
-    dp[0]=tot[0]=1;
-
-    for(int i=1;i<n;i++){
-        for(auto v: nodes[i]){
-            dp[v]=tot[dep[v]-1];
-            dp[v]%=mod;
-            if(dep[v]>1){
-                dp[v]=(dp[v]+mod-dp[par[v]]);
-                dp[v]%=mod;
-            }
-            tot[dep[v]]+=dp[v];
-            tot[dep[v]]%=mod;
-        }
-    }
-
-    int ans=0;
-    for(int i=0;i<n;i++){
-        ans+=dp[i];
-        ans%=mod;
-    }
-
-    cout<<ans;pl;
-
-
-    
-
-  
-
-
-
-
-
-
-
-
+    // 
         
 }
    

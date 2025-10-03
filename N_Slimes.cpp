@@ -1,52 +1,51 @@
 #include<bits/stdc++.h>
 using namespace std;
 #define int long long
+int n;
+int a[401];
+int p[401];
+int sum(int l,int r){
+    return p[r]-p[l-1];
+}
+
+int dp[401][401];
+
+int rec(int l,int r){
+    if(l==r){
+        return 0;
+    }
+    if(dp[l][r]!=-1) return dp[l][r];
+    
+    int ans=1e18;
+
+    for(int mid=l;mid<r;mid++){
+        ans=min(ans,(sum(l,r)+rec(l,mid)+rec(mid+1,r)));
+    }
+    return dp[l][r]= ans;
+}
+
+
    
    
 int32_t main(){
+    cin>>n;
+
+    for(int i=1;i<=n;i++){
+        cin>>a[i];
+    }
+
+    p[0]=0;
+    for(int i=1;i<=n;i++){
+        p[i]=p[i-1]+a[i];
+    }
+    memset(dp,-1,sizeof(dp));
+
+    cout<<rec(1,n);
+
+
+
     
    
-   int n;
-   cin >> n;
-   int a[n];
-   for(int i=0;i<n;i++) cin>>a[i];
-
-   int dp[n+1][n+1];
-   for(int i=0;i<=n;i++){
-       for(int j=0;j<=n;j++){
-           dp[i][j] = 1e16;
-       }
-   }
-   for(int i=0;i<n;i++){
-       dp[i][i] = 0;
-   }
-
-   int s[n];
-   s[0] = a[0];
-   for(int i=1;i<n;i++) s[i] = s[i-1]+a[i];
-
-   auto sum=[&](int l,int r)->int{
-       return s[r] - (l > 0 ? s[l-1] : 0);
-   };
    
-
-   for(int r=1;r<n;r++){
-    for(int l=r-1;l>=0;l--){
-        int mn=1e18+3;
-
-        for(int mid=l;mid<r;mid++){
-            mn = min(mn, dp[l][mid] + dp[mid+1][r] +sum(l,r));
-        }
-
-        dp[l][r] = mn;
-
-
-    }
-   }
-
-   cout<<dp[0][n-1] << endl;
-
-
-
-
+ return 0;
 }

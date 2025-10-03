@@ -24,8 +24,7 @@ using namespace std;
 //}   
    
    
-   
-#define int long long 
+
 #define ll long long 
 #define nl cout<<endl; 
 #define raaz ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
@@ -44,117 +43,118 @@ using namespace std;
 #define pn cout<<"No"<<endl;
 #define ff(i,a,n) for(int i = a;i<n;i++)
 #define fl(i,a,n) for(int i = n-1;i>=a;i--)
-   
+
 
 class DSU{
-    vector<int> par;
-    vector<int> rank;
+      vector<int> par;
+      //vector<int> rank;
+      public: 
+      DSU(int n){
+        par.resize(n);
+        //rank.resize(n);
 
-    public: 
-    DSU(int n){
-        par.resize(n+1);
-        rank.resize(n+1);
-
-        for(int i=1;i<=n;i++){
+        for(int i=0;i<n;i++){
             par[i]=i;
-            rank[i]=0;
+           // rank[i]=0;
         }
-    }
+      }
 
-    int findPar(int x){
+
+      int findPar(int x){
         if(par[x]==x) return x;
         return par[x]=findPar(par[x]);
-    }
+      }
 
-    void unite(int x,int y){
+      void unite(int x,int y){
         int rx=findPar(x);
         int ry=findPar(y);
-
         if(rx==ry){
-            return ;
+            return;
         }
-
-        if(rank[rx]>rank[ry]){
-            swap(rx,ry);
-        }
-
         par[rx]=ry;
+      }
 
-        if(rank[rx]==rank[ry]){
-            rank[ry]++;
-        }
-    }
+      bool isSame(int x,int y){
+        return (findPar(x)==findPar(y));
+      }
 };
    
    
+  
+   
 void solve(){
-    int n,m1,m2;
-    cin>>n>>m1>>m2;
+    int n,m;
+    cin>>n>>m;
 
-    vector<vector<int>> E1(m1),E2(m2);
+    vector<vector<int>> E(m);
 
-    DSU d2(n);
-
-    for(int i=0;i<m1;i++){
-        int x,y;
-        cin>>x>>y;
-        E1[i]={x,y};
+    for(int i=0;i<m;i++){
+        take(x);
+        take(y);
+        take(w);
+        x--;
+        y--;
+        if(x>y){
+            swap(x,y);
+        }
+        E[i]={w,x,y};
     }
 
-    for(int i=0;i<m2;i++){
-        int x,y;
-        cin>>x>>y;
-        E2[i]={x,y};
-        d2.unite(x,y);
-    }
-
+    //sortv(E);
     int ans=0;
 
-    DSU d1(n);
+    vector<int> valid(m,1); // all are valid initially
+    
+    for(int b=30;b>=0;b--){
 
-    for(int i=0;i<m1;i++){
-        int x=E1[i][0];
-        int y=E1[i][1];
+        // sort by the value of bth bit
+        
+        // only to possiblity 
 
-        int rx=d2.findPar(x);
-        int ry=d2.findPar(y);
+        // mak two vectors
+        vector<vector<int>> E0;
+      //  vector<vector<int>> E1;
 
-        if(rx==ry){
-            //edge hai
-            d1.unite(x,y);
+        for(int i=0;i<m;i++){
+            if(!valid[i]) continue;
+            if((1<<b)&(E[i][0])){
+               // E1.push_back(E[i]);
+            }else{
+                E0.push_back(E[i]);
+            }
+        }
+
+        // try making MST
+        // from only valid edges
+        int ct=0;
+        DSU d(n);
+        for(auto v: E0){
+            if(ct==n-1){
+                break;
+            }
+            if(!d.isSame(v[1],v[2])){
+                ct++;
+                if(ct==n-1){
+                    break;
+                }
+                d.unite(v[1],v[2]);
+            }
+        }
+        if(ct==n-1){
+           // possible to hai
+           // invalidate the others
+           for(int i=0;i<m;i++){
+            if((1<<b)&(E[i][0])){
+                valid[i]=0;
+            }
+           }
         }else{
-            ans++;
-            // delete
+            ans+=(1<<b);
         }
     }
-
-    // may need to ADD EXTRA edges
-
-    for(int i=0;i<m2;i++){
-        int x=E2[i][0];
-        int y=E2[i][1];
-
-        int rx=d1.findPar(x);
-        int ry=d1.findPar(y);
-
-        if(rx==ry){
-            //edge hai
-            
-        }else{
-            ans++;
-            d1.unite(x,y);
-            // delete
-        }
-    }
-
-
-
 
     cout<<ans;pl;
 
-
-
-        
 }
    
    

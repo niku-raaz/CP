@@ -188,215 +188,114 @@ long long binpow(long long a, long long b, long long m) {
  //  Form 3: Multisequence eg. LIS, LCS  
  //  Form 4: DP(L,R)=> DP(L,P)*DP(P,R), break in between  
  // Form 5: Game DP  (may have some pattern)  
+   
 
+   
+void solve(){
+    int n,m;
+    cin>>n>>m;
+    takevec(a,n);
+    takevec(b,m);
 
- int f(vector<int>a ,vector<int> b){
-    int n=a.size();
-    int m=b.size();
-   int ct=0;
+    
 
-   int i=n-1;
-   int j=m-1;
+    // check every skipping case
+
+    int ans=1e10;
+
+    vector<int> mxN(m,-1);
+    vector<int> mnN(m,n);
+
+    int i=0;
+    int j=0;
+    while(i<n && j<m){
+        if(a[i]>=b[j]){
+            mnN[j]=i;
+            j++;
+            i++;
+        }else{
+            i++;
+        }
+    }
+
+    if(j==m){
+        cout<<0;pl;
+        return;
+    }
+
+    j=m-1;
+    i=n-1;
 
     while(i>=0 && j>=0){
-
         if(a[i]>=b[j]){
-            ct++;
+            mxN[j]=i;
             i--;
             j--;
         }else{
             i--;
         }
-
     }
+    // show(a);
+    // show(b);
+    // show(mnN); // pfx
+    // show(mxN); // sfx
+    // if(mnN==mxN){
+    //     cout<<0;pl;
+    //     return;
+    // }
 
-    //  an j pata chal gya
-   int ans=b[j];
-    i=n-1;
-    int k=m-1;
+    if(m==1){
 
-    vector<int> v;
-
-    while(i>=0 && k>j){
-
-        if(a[i]>=b[k]){
-            v.pb(a[i]);
-            k--;
-            i--;
-
-        }else{
-            v.pb(a[i]);
-
-            i--;
-
-
+        for(int i=0;i<n;i++){
+            if(a[i]>=b[0]){
+                cout<<0;pl;
+                return;
+            }
         }
-    }
-
-    v.pb(ans);
-    while(i>=0){
-        v.pb(a[i]);
-        i--;
-    }
-
-    reverse(v.begin(),v.end());
 
 
-   // show(v);
-
-   i=0;
-   j=0;
-
-   ct=0;
-
-   while(i<v.size() && j<m){
-
-    if(v[i]>=b[j]){
-        i++;
-        j++;
-        ct++;
-    }else{
-        i++;
-    }
-
-   }
-
-   if(ct>=m){
-    return ans;
-
-   }else{
-    return -1;
-   }
+        cout<<b[0];pl;
 
 
- }
 
-
- 
-   
-   
-   
-void solve(){
-    take(n);take(m);
-
-    takevec(a,n);
-    takevec(b,m);
-
-  
-
-    int ct=0;
-
-    int i=0;
-    int j=0;
-
-    while(i<n && j<m){
-        if(a[i]>=b[j]){
-            i++;
-            j++;
-            ct++;
-        }else{
-            i++;
-        }
-    }
-
-    if(ct>=m){
-        cout<<0;pl;
         return;
     }
 
-    vector<int> v;
-    ff(i,0,m){
-        v.pb(b[i]);
-    }
 
-    sortv(v);
 
-    int lo=0;
-    int hi=1e14;
-    int ans=(1e14);
+    for(int j=0;j<m;j++){
+        // if i wanna skip j
+        if(j==0){
 
-    while(lo<=hi){
-        int mid=(lo+hi)/2;
-
-        // 
-        int val=mid;
-
-        // 
-
-        // Will this x works??
-
-        bool extra=0;
-
-        int x=0;
-        int y=0;
-
-        bool ok=1;
-
-        for(int y=0;y<m;y++){
-
-            while(a[x]<b[y] && x<n){
-                x++;
+            if(mxN[j+1]>=0){
+                ans=min(ans,b[j]);
             }
 
-            if(x<n){
-                // bacha hai
-                x++;
-                
-
-            }else{
-                // need hai
-                if(extra==1 || val<b[y]){
-                    ok=0;
-                    break;
-                    
-
-                }else{
-                    // alreafy used
-                    extra=1;
-
-
-                }
+            continue;
+        }
+        if(j==m-1){
+            if(mnN[j-1]<n){
+                ans=min(ans,b[j]);
             }
-
-
-
-
-        }
-
-
-        if(ok){
-            ans=min(ans,val);
-            hi=mid-1;
-        }else{
-            lo=mid+1;
+            continue;
         }
         
-        
-        
-
-
-
-
+        // check if possibble
+        // for this 
+        // min index needed for prefix < max Index needed for suffix
+        if(mnN[j-1]<mxN[j+1]){
+           // possible
+           ans=min(ans,b[j]);
+        }
     }
 
-
-    if(ans==(1e14)){
+    if(ans==1e10){
         cout<<-1;pl;
-        return;
+    }else{
+        cout<<ans;pl;
     }
-
-    cout<<ans;pl;
-
-
-   
-
-  
-  
- 
-
-    
-
-   
+    a.clear();
+    b.clear();
 
         
 }

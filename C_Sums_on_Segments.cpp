@@ -188,13 +188,86 @@ long long binpow(long long a, long long b, long long m) {
  //  Form 3: Multisequence eg. LIS, LCS  
  //  Form 4: DP(L,R)=> DP(L,P)*DP(P,R), break in between  
  // Form 5: Game DP  (may have some pattern)  
-   
+
+ int maxSS(vector<int>& a){
+  int n=a.size();
+  int pfx=0;
+  int ans=0;
+
+  for(int i=0;i<n;i++){
+    pfx+=a[i];
+    if(pfx<0){
+      pfx=0;
+    }
+    ans=max(ans,pfx);
+  }
+
+  return ans;
+
+ }
+
+  int minSS(vector<int>& a){
+    int n=a.size();
+    int pfx=0;
+    int ans=0;
+
+    for(int i=0;i<n;i++){
+      pfx+=a[i];
+      if(pfx>0){
+        pfx=0;
+      }
+      ans=min(ans,pfx);
+    }
+
+    return ans;
+
+
+ }
    
    
 void solve(){
     // -1,1,x
     take(n);
     takevec(a,n);
+
+    vector<int> left,right;
+    int mid=1;
+    int mind=-1;
+
+    for(int i=0;i<n;i++){
+      if(a[i]!=1 && a[i]!=-1){
+        mid=a[i];
+        mind=i;
+        break;
+      }
+    }
+
+    if(mind==-1){
+      int r=maxSS(a);
+      int l=minSS(a);
+
+      cout<<r-l+1;pl;
+      for(int i=l;i<=r;i++){
+        cout<<i<<" ";
+      }
+      pl;
+
+
+      return ;
+    }
+
+    set<int> ans;
+
+    for(int i=0;i<n;i++){
+      if(i<mind){
+        left.pb(a[i]);
+      }
+      if(i>mind){
+        right.pb(a[i]);
+      }
+    }
+
+    // right has the min element
 
     
 }

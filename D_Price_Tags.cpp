@@ -200,7 +200,50 @@ void solve(){
 
 
     // NO BS
+    sortv(c);
 
+    int mx=c.back();
+
+
+    vector<int> f(mx+1,0);
+    for(auto& x: c){
+      f[x]++;
+    }
+
+    vector<int> pfx(mx+1,0);
+    pfx[0]=f[0];
+
+    for(int i=1;i<=mx;i++){
+      pfx[i]=pfx[i-1]+f[i];
+    }
+
+    int ans=-1e18;
+
+    
+
+    for(int x=2;x<=mx;x++){
+      int sum=0;
+      int use=0;
+      int mxp=(mx+x-1)/x;
+
+      for(int p=1;p<=mxp;p++){
+        int l=(p-1)*x+1;
+        int r=min(mx,p*x);
+
+        int fq=pfx[r]-pfx[l-1];
+        // itne log repeat ho rhe
+        sum+=p*fq;
+
+        use+=min(f[p],fq);
+      }
+
+      ans=max(ans,(sum-(n-use)*y));
+
+    }
+
+    ans=max(ans,n-(n-min(f[1],n))*y);
+
+    cout<<ans;pl;
     
 
 

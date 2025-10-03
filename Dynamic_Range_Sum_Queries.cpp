@@ -61,46 +61,86 @@ int query(int id,int l,int r,int lq,int rq){
 
     return lf+rh;
 }
+
+class BIT{
+    vector<int> p;
+    public:
+    BIT(int n){
+        p.resize(n+1);
+        for(int i=0;i<=n;i++){
+            p[i]=0;
+        }
+    }
+
+    // BIT should be 1 based indexing
+    // update
+    void update(int ind,int diff){
+        for(ind;ind<p.size();ind+=(ind&(-ind))){
+            p[ind]+=diff;
+        }
+    }
+
+    int query(int ind){
+        int sum=0;
+        for(ind;ind>0;ind-=(ind&(-ind))){
+            sum+=p[ind];
+        }
+        return sum;
+    }
+    int query(int l,int r){
+        return query(r)-query(l-1);
+    }
+};
    
    
 int32_t main(){
     int n,q;
     cin>>n>>q;
 
-    for(int i=0;i<n;i++){
-        cin>>arr[i];
+    // lets do uing BIT
+
+    BIT b(n);
+    // build
+    for(int i=1;i<=n;i++){
+        int x;cin>>x;
+        b.update(i,x);
+        arr[i]=x;
     }
 
-    build(0,0,n-1);
-
+    // query
 
     while(q--){
-        int ch;cin>>ch;
-        if(ch==1){
+        int type;
+        cin>>type;
+
+        if(type==1){
             // update
-            int pos,val;
-            cin>>pos>>val;
-            pos--;
-            int diff=val-arr[pos];
+            int ind,val;
+            cin>>ind>>val;
+            int diff=val-arr[ind];
+            arr[ind]=val;
 
-            arr[pos]=val;
+            b.update(ind,diff);
 
-            update(0,0,n-1,pos,diff);
-
-            // this diff needs to be added
-
-            // less go for it
 
         }else{
-            int lo,hi;
-            cin>>lo>>hi;
-            lo--;
-            hi--;
+            int l,r;
+            cin>>l>>r;
 
-            cout<<query(0,0,n-1,lo,hi)<<endl;
+            cout<<b.query(l,r)<<endl;
 
         }
     }
+
+
+
+
+
+
+
+
+
+    
     
    
    

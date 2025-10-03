@@ -175,53 +175,30 @@ long long binpow(long long a, long long b, long long m) {
    
 int n;
 int k;
-int luck;
-
-void rec(int x, int y){
-    if(x>=y){ 
-
-        return;
-    }
-    int d=y-x+1;
-    if(d<k){
-        return ;
-        
-    }
-    int mid=(x+y)/2;
-
-    if(d&1){
-        //odd
-        luck+=mid;
-      //
-
-        rec(x,mid-1);
-
-    }else{
-        //even
-        rec(x,mid);
 
 
-    }
-    
-    
-    
-}
 
    
 void solve(){
-
    cin>>n>>k; 
-   //n=7;
-   luck=0;
+   
    if(k==1){
     cout<<(n*(n+1))/2;pl; return;
    }
+   
+   int mul=n+1;
+   int sum=0;
+   int curr=1;
 
-   rec(1,n);
-   // dp
-   // 
+   while(n>=k){ // lenght
+    if(n&1){
+        sum+=curr;
+    }
+     n/=2;
+     curr*=2;
+   }
 
-   cout<<luck;pl;
+   cout<<(sum*mul)/2;pl;
         
 }
    

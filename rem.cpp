@@ -45,115 +45,39 @@ using namespace std;
 #define ff(i,a,n) for(int i = a;i<n;i++)
 #define fl(i,a,n) for(int i = n-1;i>=a;i--)
    
-
-class DSU{
-    vector<int> par;
-    vector<int> rank;
-
-    public: 
-    DSU(int n){
-        par.resize(n+1);
-        rank.resize(n+1);
-
-        for(int i=1;i<=n;i++){
-            par[i]=i;
-            rank[i]=0;
-        }
+   
+bool isPrime(int n){
+      if(n<=1){
+      return false;
+      }
+   for(int i = 2;i*i<=n;i++){
+     if(n%i==0){
+     return false;
+       }
     }
-
-    int findPar(int x){
-        if(par[x]==x) return x;
-        return par[x]=findPar(par[x]);
+  return true;
     }
-
-    void unite(int x,int y){
-        int rx=findPar(x);
-        int ry=findPar(y);
-
-        if(rx==ry){
-            return ;
-        }
-
-        if(rank[rx]>rank[ry]){
-            swap(rx,ry);
-        }
-
-        par[rx]=ry;
-
-        if(rank[rx]==rank[ry]){
-            rank[ry]++;
-        }
-    }
-};
    
    
+   
+bool sbs(const pair<int,int>&a,const pair<int,int>&b){
+        return a.second<b.second;
+   }
+   
+long long binpow(long long a, long long b, long long m) {
+   a %= m;
+   long long res = 1;
+   while (b > 0) {
+        if (b & 1)
+          res = res * a % m;
+        a = a * a % m;
+        b >>= 1;
+   }
+  return res;
+}  
 void solve(){
-    int n,m1,m2;
-    cin>>n>>m1>>m2;
 
-    vector<vector<int>> E1(m1),E2(m2);
-
-    DSU d2(n);
-
-    for(int i=0;i<m1;i++){
-        int x,y;
-        cin>>x>>y;
-        E1[i]={x,y};
-    }
-
-    for(int i=0;i<m2;i++){
-        int x,y;
-        cin>>x>>y;
-        E2[i]={x,y};
-        d2.unite(x,y);
-    }
-
-    int ans=0;
-
-    DSU d1(n);
-
-    for(int i=0;i<m1;i++){
-        int x=E1[i][0];
-        int y=E1[i][1];
-
-        int rx=d2.findPar(x);
-        int ry=d2.findPar(y);
-
-        if(rx==ry){
-            //edge hai
-            d1.unite(x,y);
-        }else{
-            ans++;
-            // delete
-        }
-    }
-
-    // may need to ADD EXTRA edges
-
-    for(int i=0;i<m2;i++){
-        int x=E2[i][0];
-        int y=E2[i][1];
-
-        int rx=d1.findPar(x);
-        int ry=d1.findPar(y);
-
-        if(rx==ry){
-            //edge hai
-            
-        }else{
-            ans++;
-            d1.unite(x,y);
-            // delete
-        }
-    }
-
-
-
-
-    cout<<ans;pl;
-
-
-
+    
         
 }
    

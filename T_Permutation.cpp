@@ -1,59 +1,50 @@
 #include<bits/stdc++.h>
 using namespace std;
 #define int long long
-
-int n;
-string s;
-
-int mod=1e9+7;
-
-int binpow(int a, int c){
-    int res=1;
-
-    for(int b=0;b<=63;b++){
-        if(c&(1LL<<b)){
-            res=(res*a)%mod;
-        }
-        a=(a*a)%mod;
-    }
-    return res;
-}
-
-int inv(int a){
-    return binpow(a,mod-2);
-}
    
    
 int32_t main(){
-    cin>>n>>s;
+    int n;cin>>n;
 
-    int dp[n+1];
-    dp[0]=1;
+    string s;cin>>s; // of n-1 size
+    s="##"+s;
 
-    for(int i=1;i<n-1;i++){
-        int num=i+1;
-        int ans=0;
+    vector<vector<int>> dp(n+1,vector<int>(n+1,0));
+
+    // dp[i][j] = # ways till ith index such that # of elements  
+    //             smaller than last taken elemenet
+    //             in not-taken element set is j
+
+    int mod=1e9+7;
+
+    for(int j=0;j<n;j++){
+        dp[1][j]=1; 
+    }
+
+    for(int i=2;i<=n;i++){
+
         if(s[i]=='<'){
-            for(int j=0;j<i;j++){
-                if(s[j]=='<'&& s[j+1]=='>'){
-                    ans+=1;
-                }
+            // increasing
+            int sum=0;
+            for(int j=0;j<=n-i;j++){
+                sum+=dp[i-1][j];
+                sum%=mod;
+                dp[i][j]=sum;
             }
         }else{
+            // decresing
+            int sum=dp[i-1][n-i+1];
 
-            // s[i]=">" // problemmatic
-
+            for(int j=(n-i);j>=0;j--){
+               dp[i][j]=sum;
+               sum+=dp[i-1][j];
+               sum%=mod;
+            }
         }
-        
 
     }
 
-    
-
-
-   
-
-
+    cout<<dp[n][0];
 
     
    

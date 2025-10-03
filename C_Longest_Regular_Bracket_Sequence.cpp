@@ -7,7 +7,25 @@
 #include <cstdio>
 using namespace std;
    
-
+   
+   
+   
+//#include <ext/pb_ds/assoc_container.hpp> // Common file   
+//#include <ext/pb_ds/tree_policy.hpp> // Including tree_order_statistics_node_update   
+//#include <ext/pb_ds/detail/standard_policies.hpp>   
+   
+//using namespace __gnu_pbds;  
+//typedef tree<int,null_type,less<int>,rb_tree_tag,tree_order_statistics_node_update> ordered_set;   
+    
+//void myerase(ordered_set &t, int v){   
+//     int rank = t.order_of_key(v);//Number of elements that are less than v in t   
+//     ordered_set::iterator it = t.find_by_order(rank); //Iterator that points to the (rank+1)th element in t   
+//     t.erase(it);  
+//}   
+   
+   
+   
+#define int long long 
 #define ll long long 
 #define nl cout<<endl; 
 #define raaz ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
@@ -170,101 +188,78 @@ long long binpow(long long a, long long b, long long m) {
  //  Form 3: Multisequence eg. LIS, LCS  
  //  Form 4: DP(L,R)=> DP(L,P)*DP(P,R), break in between  
  // Form 5: Game DP  (may have some pattern)  
+ 
+int solveLongestValid(string s){
+    int n=s.size();
+    s = '$' + s;
+    vector<int> v(n+1,0);
+    int ct=0;
+    for(int i=1;i<=n;i++){
+        if(s[i]==')') ct--;
+        else ct++;
+        v[i]=ct;
+    }
 
-
-int mod=998244353;
-
-
-void dfs(int node,int par,vector<vector<int>>& g,vector<int>& d){
-
-    for(auto child: g[node]){
-        if(child==par){
+    unordered_map<int,int> mp;
+    mp[0]=0;
+    int ans=0;
+    for(int i=1;i<=n;i++){
+        if(v[i]<0){  // reset point
+            mp.clear();
             continue;
         }
-        d[child]=d[node]+1;
-        dfs(child,node,g,d);
-    }
-
- }
-
-
-int DFS(int node,int par,vector<vector<int>>& g,vector<int>& d,vector<vector<int>>& level,vector<int>& dp,vector<int>& parent){
-
-    int ans=1;
-
-    if(dp[node]!=-1){
-        return dp[node];  
-    }
-
-    
-
-        // optimise this part
-        // 
-
-        for(int possible : level[d[node]+1]){
-
-            if(parent[possible]!=node){
-                ans=(ans+0LL+DFS(possible,node,g,d,level,dp,parent))%mod;
-            }
+        if(mp.find(v[i])!=mp.end()){
+            ans=max(ans, i-mp[v[i]]);
+        }else{
+            mp[v[i]]=i;
         }
-
-   // sum[d[node]]+=ans; // I have calculated the sum at each level
-    return dp[node]= ans;
+    }
+    return ans;
 }
 
-
-
+   
    
 void solve(){
-    take(n);
-    vector<int> par(n,0);
-    vector<int> dep(n,0);
-    vector<vector<int>> nodes(n);
-    for(int i=1;i<n;i++){
-        cin>>par[i];
-        par[i]--;
-        dep[i]=dep[par[i]]+1;
-        nodes[dep[i]].push_back(i);
-    }
+        string s;cin>>s;
 
-    vector<int> dp(n,0),tot(n,0);
+       // Lets solve using stack
 
-    dp[0]=tot[0]=1;
+       stack<int> st;
+       st.push(-1); // base , bcz of 0 based indexing
 
-    for(int i=1;i<n;i++){
-        for(auto v: nodes[i]){
-            dp[v]=tot[dep[v]-1];
-            dp[v]%=mod;
-            if(dep[v]>1){
-                dp[v]=(dp[v]+mod-dp[par[v]]);
-                dp[v]%=mod;
+       int ans=0;
+       int ct=1;
+
+       for(int i=0;i<s.size();i++){
+        if(s[i]=='('){
+            st.push(i);
+        }else{
+
+            st.pop();
+
+            if(st.empty()){
+               // reset the base
+               st.push(i); //acts as -1 
+            }else{
+
+                int len=i-st.top();
+                if(len>ans){
+                    ans=len;
+                    ct=1;
+                }else if(len==ans){
+                    ct++;
+                }
+
+
             }
-            tot[dep[v]]+=dp[v];
-            tot[dep[v]]%=mod;
         }
-    }
+       }
 
-    int ans=0;
-    for(int i=0;i<n;i++){
-        ans+=dp[i];
-        ans%=mod;
-    }
+       if(ans==0) ct=1;
 
-    cout<<ans;pl;
+       cout<<ans<<" "<<ct;pl;
 
 
-    
-
-  
-
-
-
-
-
-
-
-
-        
 }
    
    
@@ -275,7 +270,7 @@ int32_t main(){
    // freopen("output.txt","w",stdout);
     
         int test_case=1; 
-        cin>>test_case; 
+       // cin>>test_case; 
         for(int xyz=1;xyz<=test_case;xyz++){
            // cout<<"Case# :"<<xyz<<" ";
              solve(); };        
