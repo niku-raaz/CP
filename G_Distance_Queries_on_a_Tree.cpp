@@ -33,28 +33,22 @@ using namespace std;
 class BIT{
     vector<int> p;
     public:
-
     BIT(int n){
         p.resize(n+5,0);
     }
-
     void update(int ind,int val){
         // foward
         for(ind;ind<p.size();ind+=(ind&(-ind))){
             p[ind]+=val;
         }
     }
-
     int query(int ind){
         int ans=0;
-
         for(ind; ind>0;ind-=(ind&(-ind))){
             ans+=p[ind];
         }
         return ans;
     }
-
-
 };
 
 

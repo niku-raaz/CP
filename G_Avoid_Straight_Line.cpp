@@ -1,0 +1,166 @@
+ 
+// RAGON MEIN DAUDTE FIRNE KE HAM NAHI QAYAL
+// JAB AANKH SE HI NA TAPKA TO FIR LAHU KYA HAI
+   
+   
+#include <bits/stdc++.h>
+#include <cstdio>
+using namespace std;
+   
+   
+   
+   
+//#include <ext/pb_ds/assoc_container.hpp> // Common file   
+//#include <ext/pb_ds/tree_policy.hpp> // Including tree_order_statistics_node_update   
+//#include <ext/pb_ds/detail/standard_policies.hpp>   
+   
+//using namespace __gnu_pbds;  
+//typedef tree<int,null_type,less<int>,rb_tree_tag,tree_order_statistics_node_update> ordered_set;   
+    
+//void myerase(ordered_set &t, int v){   
+//     int rank = t.order_of_key(v);//Number of elements that are less than v in t   
+//     ordered_set::iterator it = t.find_by_order(rank); //Iterator that points to the (rank+1)th element in t   
+//     t.erase(it);  
+//}   
+   
+   
+   
+#define int long long 
+#define ll long long 
+#define nl cout<<endl; 
+#define raaz ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
+#define take(n) int n; cin>>n;
+#define takearr(a,n)  int a[n]; for(int i=0; i<n; i++) cin>>a[i];
+#define takevec(a,n)  vector<int> a(n); for(int i=0; i<n; i++) cin>>a[i];
+#define sortv(v) sort(v.begin(),v.end());
+#define sortarr(arr,n) sort(arr,arr+n);
+#define show(ds) for(auto it: ds) cout<<it<<" ";cout<<endl;
+#define pb push_back
+#define pl cout<<endl;
+#define ps cout<<" ";
+#define pY cout<<"YES"<<endl;
+#define pN cout<<"NO"<<endl;
+#define py cout<<"Yes"<<endl;
+#define pn cout<<"No"<<endl;
+#define ff(i,a,n) for(int i = a;i<n;i++)
+#define fl(i,a,n) for(int i = n-1;i>=a;i--)
+   
+   
+bool isPrime(int n){
+      if(n<=1){
+      return false;
+      }
+   for(int i = 2;i*i<=n;i++){
+     if(n%i==0){
+     return false;
+       }
+    }
+  return true;
+    }
+   
+   
+   
+bool sbs(const pair<int,int>&a,const pair<int,int>&b){
+        return a.second<b.second;
+   }
+   
+long long binpow(long long a, long long b, long long m) {
+   a %= m;
+   long long res = 1;
+   while (b > 0) {
+        if (b & 1)
+          res = res * a % m;
+        a = a * a % m;
+        b >>= 1;
+   }
+  return res;
+}  
+void solve(){
+
+    int n;cin>>n;
+    vector<vector<int>> g(n+1);
+    for(int i=1;i<n;i++){
+        take(x);
+        take(y);
+        g[x].pb(y);
+        g[y].pb(x);
+    }
+
+    vector<int> sub(n+1,0);
+    vector<int> ans3(n+1,0);
+    vector<int> ans2(n+1,0);
+
+    auto dfs=[&](int node,int par,auto && dfs)->void{
+
+        
+        vector<int> pfx;
+       // pfx.reserve(n+1);
+        int sum=0;
+
+        for(auto child: g[node]){
+            if(child==par)continue; // 
+            dfs(child,node,dfs);
+            sub[node]+=sub[child];
+            ans2[node]+=ans2[child];
+            ans3[node]+=ans3[child];
+            ans3[node]+=ans2[child]; // 2,i
+            sum+=sub[child];
+
+            pfx.push_back(sum); 
+        }
+
+        int SUM=sum;
+
+        for(int i=0;i< (int)pfx.size()-1;i++){
+            sum-=pfx[i];
+            ans3[node]+=(pfx[i]*sum); // 1,1, i
+        }
+
+        for(auto child: g[node]){  // 2 from 1 , 1 from other
+            if(child==par) continue;
+            ans3[node]+=(ans2[child]*(SUM-sub[child]));
+        }
+
+        ans2[node]+=sub[node];
+        sub[node]+=1;
+
+
+        
+    };
+
+    dfs(1,-1,dfs);
+    int ex=((n*(n-1)*(n-2))/6);
+
+    for(int i=1;i<=n;i++){
+        cout<<ans3[i]<<" ";
+    }
+    pl;
+    for(int i=1;i<=n;i++){
+        cout<<sub[i]<<" ";
+    }
+    pl;
+
+    for(int i=1;i<=n;i++){
+        cout<<ans2[i]<<" ";
+    }
+    pl;
+
+    cout<<ex-ans3[1];pl;
+
+        
+}
+   
+   
+   
+int32_t main(){
+        raaz
+   // freopen("input.txt","r",stdin);
+   // freopen("output.txt","w",stdout);
+    
+        int test_case=1; 
+      //  cin>>test_case; 
+        for(int xyz=1;xyz<=test_case;xyz++){
+           // cout<<"Case# :"<<xyz<<" ";
+             solve(); };        
+   return 0;
+   }

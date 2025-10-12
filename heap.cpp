@@ -16,7 +16,8 @@ class Heap{
     int par(int i){
         return (i-1)/2;
     }
-    int left(int i){
+    int left(int i){ // o based indexing
+
         return 2*i+1;
     }
     int right(int i){
@@ -119,7 +120,90 @@ class Heap{
     
 };
    
-   
+
+class minHeap{
+    int size;
+    vector<int> arr;
+
+    public:
+
+    minHeap(){
+        size=0;
+        // initialsized with zero
+    }
+
+    int par(int x){
+        return (x-1)/2;
+    }
+    int left(int x){
+        return 2*x+1;
+    }
+    int right(int x){
+        return 2*x+2;
+    }
+
+    
+
+    void insert(int val){
+         // insert at last
+         arr.push_back(val);
+         size++;
+
+        // this may cause problem in ordering 
+        // soc check the ordering
+        int curr=size;
+        while(par(curr)>=0){
+            if(arr[par(curr)]>arr[curr]){
+                swap(arr[par(curr)],arr[curr]);
+            }
+            curr=par(curr);
+            if(curr==0){
+                break;
+            }
+        }
+    }
+
+    // heapify function check from top to down
+
+    void heapify(int ind){
+        int li=left(ind);
+        int ri=right(ind);
+
+        int small=ind;
+
+        if(li<size && arr[li]<arr[small]){
+            small=li;
+        }
+        if(ri<size && arr[ri]<arr[small]){
+            small=ri;
+        }
+        // i got the smallest
+        if(ind!=small){
+            // swap
+            swap(arr[ind],arr[small]);
+            heapify(small);
+        }
+    }
+
+    int getMin(){
+        return arr[0];
+    }
+
+    int deleteMin(){
+
+        swap(arr[0],arr[size]);
+        size--;
+
+        arr.pop_back();
+        heapify(0);
+
+    }
+
+
+
+};
+
+
 int main(){
     Heap h(25);
 

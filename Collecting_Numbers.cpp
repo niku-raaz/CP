@@ -44,18 +44,18 @@ int32_t main(){
         cin>>a[i];
     }
 
-    DSU d(n);
-    set<int> s;
+    map<int,int> mp;
+    int ans=0;
+
     for(int i=n-1;i>=0;i--){
-        int x=a[i];
-        if(s.count(x+1)){
-           d.unite(x,x+1);
+        int need=a[i]+1;
+        if(mp.find(need)==mp.end()){
+           ans++;
         }
-        s.insert(x);
+        mp[a[i]]++;
     }
-
-    d.res(n);
-
+    
+    cout<<ans;
 
 
 

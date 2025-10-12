@@ -6,15 +6,27 @@ using namespace std;
 int32_t main(){
     int n;cin>>n;
     vector<int> a(n);
+    int mx=0;
+    int sum=0;
     for(int i=0;i<n;i++){
         cin>>a[i];
+        mx=max(mx,a[i]);
+        sum+=a[i];
     }
 
-    sort(a.begin(),a.end());
-    // 
+    int ans=max(sum,2*mx);
 
-    int sum=0;
-    int j=0;
+    
+
+    
+
+
+    
+
+    cout<<ans;
+
+    
+
     
 
 
