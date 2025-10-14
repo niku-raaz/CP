@@ -107,33 +107,12 @@ class Hash{
 int32_t main(){
     string s;
     cin>>s;
-    string pat;
-    cin>>pat;
     pre();
-   
     int n=s.size();
-    int m=pat.size();
-    Hash h1(s);
-    Hash h2(pat);
-    int num21=h2.getVal1(0,m-1);
-    int num22=h2.getVal2(0,m-1);
 
     int ans=0;
-
-    for(int i=0;i<n;i++){
-        int l=i;
-        int r=i+m-1;
-        if(r>=n){
-            break;
-        }
-        int num11=h1.getVal1(l,r);
-        int num12=h1.getVal2(l,r);
-        if(num11==num21 && num12==num22){
-            ans++;
-        }
-    }
-
-    cout<<ans;
+    
+    
     
     
    
