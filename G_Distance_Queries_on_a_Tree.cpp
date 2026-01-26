@@ -83,7 +83,7 @@ void solve(){
     vector<int> par(n+1,1);
     vector<int> depth(n+1,0);
     vector<int> a(n+1);
-     vector<vector<int>> up(n+1,vector<int>(20));
+    vector<vector<int>> up(n+1,vector<int>(20));
 
     auto dfs1=[&](int node,int p,auto&& dfs1)->void{
               par[node]=p;

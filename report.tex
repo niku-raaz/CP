@@ -1,0 +1,904 @@
+\documentclass[12pt,a4paper]{report}
+
+% --- PACKAGES ---
+\usepackage{amsthm,amssymb,mathrsfs,setspace,amsmath}
+\usepackage{epsfig}
+\usepackage[nottoc]{tocbibind} % Add ToC, LoF, LoT, Bib to the Table of Contents
+\usepackage{graphicx} % Use graphicx for \includegraphics
+\usepackage{hyperref} % For clickable links
+\usepackage{bm} % For bold math symbols (e.g., \bm{x})
+
+% --- filecontents: To bundle the .bib file into this .tex file ---
+% This creates the 'references.bib' file when you compile.
+\usepackage{filecontents}
+\begin{filecontents*}{references.bib}
+@article{main_paper,
+    author = {Bapat, R. B. and Pati, Sukanta},
+    title = {Algebraic connectivity and the characteristic set of a graph},
+    journal = {Linear and Multilinear Algebra},
+    volume = {45},
+    number = {2-3},
+    pages = {247-273},
+    year = {1998},
+    doi = {10.1080/03081089808818576}
+}
+
+@book{meyer2000matrix,
+    title={Matrix Analysis and Applied Linear Algebra},
+    author={Meyer, C. D.},
+    year={2000},
+    publisher={SIAM}
+}
+
+@article{fiedler1973algebraic,
+    title={Algebraic connectivity of graphs},
+    author={Fiedler, Miroslav},
+    journal={Czechoslovak Mathematical Journal},
+    volume={23},
+    number={2},
+    pages={298--305},
+    year={1973}
+}
+\end{filecontents*}
+% --- End of filecontents ---
+
+
+% --- PAGE STYLE (from sample) ---
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection\ #1}}
+
+% --- THEOREM DEFINITIONS (from sample) ---
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+% --- LINE SPACING ---
+\renewcommand{\baselinestretch}{1.5} % Set 1.5 line spacing
+
+% --- HYPERREF SETUP ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black, % Color of internal links (chapters, sections)
+    citecolor=blue,  % Color of citations
+    urlcolor=blue,   % Color of external URLs
+    pdftitle={Algebraic connectivity and the characteristic set of a graph},
+    pdfauthor={Your Name}
+}
+
+% =================================================================
+% --- DOCUMENT BEGINS ---
+% =================================================================
+\begin{document}
+
+% --------------- Title page -----------------------
+\begin{titlepage}
+\enlargethispage{3cm}
+
+\begin{center}
+
+\vspace*{-2cm}
+
+\textbf{\Large A STUDY ON ALGEBRAIC CONNECTIVITY AND THE CHARACTERISTIC SET OF A GRAPH}
+
+\vfill
+
+ A Project Report Submitted \\
+for the Course \\[1cm]
+
+{\bf\Large\ MA498 Project I }\\[.1in]
+
+ \vfill
+
+{\large \emph{by}}\\[5pt]
+{\large\bf {Your Name}}\\[5pt]
+{\large (Roll No. [Your Roll No])}
+
+\vfill
+% Use \includegraphics from graphicx package
+% The file 'iitglogo.pdf' was not found during compilation.
+% Please make sure you have UPLOADED 'iitglogo.pdf' to your project.
+% Once it is uploaded, you can UNCOMMENT the line below to show the logo.
+% \includegraphics[height=2.5cm]{iitglogo.pdf}
+
+\vspace*{0.5cm}
+
+{\em\large to the}\\[10pt]
+{\bf\large DEPARTMENT OF MATHEMATICS} \\[5pt]
+{\bf\large \mbox{INDIAN INSTITUTE OF TECHNOLOGY GUWAHATI}}\\[5pt]
+{\bf\large GUWAHATI - 781039, INDIA}\\[10pt]
+{\it\large November 2025}
+\end{center}
+
+\end{titlepage}
+
+\clearpage
+
+% --------------- Certificate page -----------------------
+\pagenumbering{roman} \setcounter{page}{2}
+\begin{center}
+{\Large{\bf{CERTIFICATE}}}
+\end{center}
+%\thispagestyle{empty}
+
+
+\noindent
+This is to certify that the work contained in this project report entitled 
+``A Study on Algebraic Connectivity and the Characteristic Set of a Graph'' submitted by [Your Name] (Roll No.: [Your Roll No]) 
+to the Department of Mathematics, Indian Institute of Technology Guwahati towards partial requirement of Bachelor of Technology in Mathematics and Computing has been carried out by him/her under my supervision. \\
+
+\noindent
+It is also certified that this report is a survey work based on the references
+in the bibliography.\\
+
+% OR\\
+%
+% \noindent
+% It is also certified that, along with literature survey,
+% a few new results are established/computational implementations have been carried
+% out/simulation studies have been carried out/empirical analysis
+% has been done by the student under the project. {\it [Remove the portions not relevant to the project] } \\
+
+\noindent
+Turnitin Similarity: \_\_ \%
+%
+
+\vspace{4cm}
+
+\noindent Guwahati - 781 039 \hfill (Prof. [Guide Name])
+
+\noindent November 2025 \hfill Project Supervisor
+
+\clearpage
+
+% --------------- Abstract page -----------------------
+\begin{center}
+{\Large{\bf{ABSTRACT}}}
+\end{center}
+
+
+The main aim of the project is to understand the preliminary results of the paper "Algebraic connectivity and the characteristic set of a graph" by R. B. Bapat and Sukanta Pati. This report provides a self-contained and detailed proofs of these results, beginning from the foundational principles of nonnegative matrix theory. We develop the complete proof of the Perron-Frobenius theorem and then apply it, along with other tools like the Cauchy Interlacing Theorem, to rigorously establish the lemmas required for the main paper.
+
+\clearpage
+
+
+% --- CONTENTS AND LISTS ---
+\tableofcontents
+\clearpage
+%\listoffigures
+%\listoftables
+
+
+\newpage
+
+% ============================
+% --- MAIN CHAPTERS ---
+% ============================
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\chapter{Introduction and Preliminary Definitions}
+
+\section{Introduction and Motivation}
+
+Matrices with nonnegative entries, or nonnegative matrices, are a class of matrices that appear naturally in a wide variety of applications. Many real-world systems are modelled by quantities that are inherently nonnegative, such as probabilities, populations, economic quantities, or physical magnitudes. This makes nonnegative matrices a fundamental tool in diverse fields like economics, computer science, and-population dynamics.
+
+A particularly powerful application of nonnegative matrix theory is in the field of Spectral Graph Theory. This field studies the properties of graphs by analysing the eigenvalues and eigenvectors of matrices associated with them, such as the adjacency matrix or the graph Laplacian.
+
+A nonnegative matrix $A \ge 0$ can be used to represent the structure of a network or graph. The study of the eigenvalues (the spectrum) of this matrix reveals deep insights about the graph's structure. For instance:
+\begin{itemize}
+    \item The largest eigenvalue of the adjacency matrix, known as the Perron root, is central to Google's PageRank Algorithm, where it is used to determine the "importance" of nodes in a network \cite{meyer2000matrix}.
+    \item The second smallest eigenvalue of the graph Laplacian, a matrix of the form $D-A$, is known as the algebraic connectivity. This value, introduced by Fiedler, provides a measure of how well-connected the graph is \cite{fiedler1973algebraic}.
+\end{itemize}
+The properties of these special eigenvalues are governed by the Perron-Frobenius theorem, a foundational result in matrix theory that describes the unique properties of the largest eigenvalue of an irreducible nonnegative matrix.
+
+\section{Project Objectives}
+
+The primary objective of this project is to conduct a rigorous and detailed study of the paper "Algebraic connectivity and the characteristic set of a graph" by R. B. Bapat and Sukanta Pati \cite{main_paper}.
+This paper investigates the properties of graph eigenvalues, specifically focusing on the relationship between the algebraic connectivity and the characteristic set of a graph. It further aims to provide a new characterization of the Fiedler vector for graphs.
+
+This report, which constitutes Part I of the project, aims to build the complete mathematical foundation required to understand the "Preliminary Results" section of \cite{main_paper}. Many lemmas in the paper are stated with brief proofs or assume prior knowledge of deep theorems.
+
+Therefore, the main objective of this report is to prove these preliminary results in full detail. This includes developing the complete proof of the Perron-Frobenius theorem, which is the theoretical cornerstone for the entire paper, as well as introducing other necessary analytical tools like the Cauchy Interlacing Theorem and the Gershgorin Circle Theorem.
+
+\section{Basic Definitions}
+
+We begin by formally defining the primary objects of our study.
+
+\begin{definition}\label{def:nonnegative}
+Let $A = [a_{ij}]$ be an $n \times n$ matrix with real entries.
+\begin{itemize}
+    \item $A$ is \textbf{nonnegative}, denoted $A \ge 0$, if $a_{ij} \ge 0$ for all $i, j$.
+    \item $A$ is \textbf{positive}, denoted $A > 0$, if $a_{ij} > 0$ for all $i, j$.
+\end{itemize}
+This notation extends to vectors $\bm{x} \in \mathbb{R}^n$ in the natural way.
+\end{definition}
+
+\begin{definition}[Associated Directed Graph]\label{def:digraph}
+For any $n \times n$ nonnegative matrix $A$, we can associate a \textbf{directed graph} (or digraph) $\Gamma(A)$. This graph consists of a set of $n$ vertices $V = \{1, 2, \dots, n\}$ and a set of directed edges $E$. A directed edge $(i, j)$ exists in $E$ if and only if the entry $a_{ij} > 0$.
+\end{definition}
+
+\begin{example}
+Let $A = \begin{pmatrix} 0 & 5 & 0 \\ 2 & 0 & 1 \\ 0 & 0 & 3 \end{pmatrix}$. The associated graph $\Gamma(A)$ has three vertices $\{1, 2, 3\}$. The edges are $(1, 2), (2, 1), (2, 3),$ and $(3, 3)$.
+\end{example}
+
+\section{Irreducibility and Strong Connectivity}
+
+The connection between a nonnegative matrix and its graph allows us to use graph-theoretic properties to classify matrices. The most important of these properties is irreducibility, which is defined by strong connectivity.
+
+\begin{definition}\label{def:strong_connectivity}
+A directed graph $\Gamma$ is \textbf{strongly connected} if for every pair of distinct vertices $(i, j)$, there exists a directed path from $i$ to $j$.
+\end{definition}
+
+\begin{definition}[Irreducible and Reducible Matrices]\label{def:irreducible}
+A nonnegative matrix $A \ge 0$ is \textbf{irreducible} if its associated directed graph $\Gamma(A)$ is strongly connected. If $A$ is not irreducible, it is called \textbf{reducible}.
+\end{definition}
+
+\begin{remark}
+If a matrix $A$ is reducible, its graph $\Gamma(A)$ is not strongly connected. This implies that the vertex set $V$ can be partitioned into two non-empty, disjoint subsets, $S_1$ and $S_2$, such that there are no edges from $S_1$ to $S_2$, or no edges from $S_2$ to $S_1$.
+\end{remark}
+
+\section{The Structure of Reducible Matrices}
+
+This graph-theoretic idea of reducibility has a powerful algebraic equivalent. It implies that the matrix can be decomposed into a specific block form using a permutation. This theorem is a "basic result" that forms the foundation of our study.
+
+\begin{theorem}\label{thm:reducible_structure}
+Let $A \ge 0$ be an $n \times n$ matrix. $A$ is reducible if and only if there exists a permutation matrix $P$ such that
+$$P^T A P = \begin{pmatrix} B & C \\ \mathbf{0} & D \end{pmatrix}$$
+where $B$ and $D$ are square matrices and $\mathbf{0}$ is a zero matrix.
+\end{theorem}
+
+\begin{proof}
+($\Leftarrow$) Suppose such a permutation matrix $P$ exists. Let $S_1$ be the set of vertices corresponding to the block $B$, and $S_2$ be the set of vertices corresponding to the block $D$. The block $\mathbf{0}$ is of size $|S_2| \times |S_1|$ and represents all edges from vertices in $S_2$ to vertices in $S_1$. Since this block is all zeros, no edge exists from any vertex in $S_2$ to any vertex in $S_1$. Therefore, it is impossible to find a path from any $v \in S_2$ to any $u \in S_1$. This means $\Gamma(A)$ is not strongly connected, and thus $A$ is reducible.
+
+($\Rightarrow$) Now, suppose $A$ is reducible. By Definition \ref{def:irreducible}, its graph $\Gamma(A)$ is not strongly connected. This means there exists a partition of the vertex set $V$ into two non-empty, disjoint sets $S_1$ and $S_2$ (where $V = S_1 \cup S_2$) such that there is no edge from any vertex in $S_2$ to any vertex in $S_1$.
+
+(To see why this partition must exist: since $\Gamma(A)$ is not strongly connected, there must be a pair of vertices $(u, v)$ such that there is no path from $u$ to $v$. Let $S_1$ be the set of all vertices $w$ such that there *is* a path from $u$ to $w$. Let $S_2 = V \setminus S_1$. $S_1$ is non-empty (it contains $u$) and $S_2$ is non-empty (it contains $v$). Now, can there be an edge $(w_2, w_1)$ where $w_2 \in S_2$ and $w_1 \in S_1$? If such an edge existed, then $u$ could reach $w_1$ (by definition of $S_1$), and $w_1$ is connected to $w_2$. This means $u$ can reach $w_2$. But this would place $w_2$ in $S_1$, which is a contradiction. Thus, there are no edges from $S_2$ to $S_1$.)
+
+Let $k = |S_1|$ and $n-k = |S_2|$. We now construct a permutation matrix $P$. A permutation matrix is an orthogonal matrix ($P^T = P^{-1}$) that re-labels the vertices. We choose $P$ to be the permutation that re-labels the vertices such that the first $k$ vertices in the new ordering are all the vertices from $S_1$, and the remaining $n-k$ vertices are all from $S_2$.
+
+The operation $A' = P^T A P$ is the matrix $A$ under this new labeling. We can view $A'$ as a $2 \times 2$ block matrix based on this partition:
+$$A' = \begin{pmatrix} B & C \\ E & D \end{pmatrix}$$
+where:
+\begin{itemize}
+    \item $B$ ($k \times k$): Represents edges from $S_1$ to $S_1$.
+    \item $C$ ($k \times (n-k)$): Represents edges from $S_1$ to $S_2$.
+    \item $D$ ($(n-k) \times (n-k)$): Represents edges from $S_2$ to $S_2$.
+    \item $E$ ($(n-k) \times k$): Represents edges from $S_2$ to $S_1$.
+\end{itemize}
+By our construction of the partition, no edges exist from any vertex in $S_2$ to any vertex in $S_1$. This means every entry in the block $E$ must be zero.
+Therefore, $E = \mathbf{0}$, and the matrix has the form:
+$$P^T A P = \begin{pmatrix} B & C \\ \mathbf{0} & D \end{pmatrix}$$
+This completes the proof.
+\end{proof}
+
+% --- End of Chapter 1 Content ---
+
+
+% --- Chapter 2 Content ---
+\chapter{The Perron-Frobenius Theorem}
+
+This chapter is dedicated to the proof of the Perron-Frobenius theorem for irreducible nonnegative matrices. This theorem is the single most important theoretical tool used in the paper, and its results (existence, positivity, uniqueness, and dominance) are cited directly in the preliminary lemmas.
+
+We will develop the proof in several stages, mirroring the lemmas presented in the appendix of the paper \cite{main_paper}. We begin by introducing an essential tool from functional analysis.
+
+\section{Analytical Foundations: Fixed-Point Theorems}
+To prove the *existence* of an eigenvector, we must first show that a solution to the equation $A\bm{x} = \lambda \bm{x}$ exists. This is a common problem in analysis, and it is often solved by finding a "fixed point" of a related function.
+
+\begin{definition}[Fixed Point]
+A point $\bm{x}_0$ in the domain of a function $f$ is a \textbf{fixed point} if $f(\bm{x}_0) = \bm{x}_0$.
+\end{definition}
+
+While several such theorems exist, our proof relies on a powerful result that guarantees a fixed point for continuous functions on specific types of sets.
+
+\begin{theorem}[Schauder Fixed-Point Theorem]\label{thm:schauder}
+Let $C$ be a non-empty, closed, convex subset of a Banach space $X$. If $T: C \to C$ is a continuous function such that $T(C)$ is a compact set, then $T$ has a fixed point in $C$.
+\end{theorem}
+
+For our purposes, we can work in the finite-dimensional space $\mathbb{R}^n$. To apply this theorem, we must first define a non-empty, compact, and convex set $C$ for our function to operate on. Since an eigenvector $\bm{v}$ is equivalent to any scaled version $c\bm{v}$, we can restrict our search to a normalized set.
+
+\begin{definition}[The Standard Simplex]\label{def:simplex}
+The \textbf{standard simplex} $S$ in $\mathbb{R}^n$ is the set of all nonnegative vectors with an $L_1$-norm of 1:
+$$ S = \{\bm{x} \in \mathbb{R}^n \mid \bm{x} \ge 0, \text{ and } ||\bm{x}||_1 = 1 \} $$
+where $||\bm{x}||_1 = \sum_{i=1}^n |x_i| = \sum_{i=1}^n x_i$ (since $\bm{x} \ge 0$).
+\end{definition}
+
+\begin{proposition}
+The standard simplex $S$ is a compact and convex set.
+\end{proposition}
+\begin{proof}
+\textbf{Convexity:} Let $\bm{x}, \bm{y} \in S$ and let $t \in [0, 1]$. We must show that the vector $\bm{z} = t\bm{x} + (1-t)\bm{y}$ is also in $S$.
+\begin{enumerate}
+    \item \textit{Non-negativity:} Since $t, (1-t) \ge 0$ and $\bm{x}, \bm{y} \ge 0$, it is clear that $\bm{z} = t\bm{x} + (1-t)\bm{y} \ge 0$.
+    \item \textit{Norm:} We check the $L_1$-norm:
+    \begin{align*}
+        ||\bm{z}||_1 &= \sum_{i=1}^n z_i = \sum_{i=1}^n (t x_i + (1-t)y_i) \\
+        &= t \sum_{i=1}^n x_i + (1-t) \sum_{i=1}^n y_i \\
+        &= t(1) + (1-t)(1) = t + 1 - t = 1
+    \end{align*}
+\end{enumerate}
+Since $\bm{z}$ satisfies both conditions, $\bm{z} \in S$. Thus, $S$ is convex.
+
+\textbf{Compactness:} In $\mathbb{R}^n$, the Heine-Borel theorem states a set is compact if it is closed and bounded.
+\begin{enumerate}
+    \item \textit{Bounded:} For any $\bm{x} \in S$, we have $\sum x_i = 1$ and $x_i \ge 0$. This implies $0 \le x_i \le 1$ for all $i$. Thus, the set is clearly bounded.
+    \item \textit{Closed:} $S$ is defined by the intersection of the closed half-spaces $x_i \ge 0$ and the hyperplane $\sum x_i = 1$. The finite intersection of closed sets is closed.
+\end{enumerate}
+Since $S$ is closed and bounded, it is compact.
+\end{proof}
+
+\section{Proof of Existence and Positivity}
+We now use the Schauder theorem on the set $S$ to prove the existence of a positive eigen-pair, as stated in Lemma 5 of the paper's appendix.
+
+\begin{lemma}[Lemma 5 in \cite{main_paper}]\label{lem:pf_existence}
+Let $A \ge 0$ be irreducible. Then there exists a positive eigenvalue $\lambda > 0$ with a corresponding eigenvector $\bm{y} > 0$.
+\end{lemma}
+\begin{proof}
+The proof consists of finding a fixed point and then showing it must be strictly positive.
+
+\textbf{Step 1: The Function.}
+We define a function $T: S \to S$ where $S$ is the standard simplex. For any $\bm{x} \in S$, define:
+$$ T(\bm{x}) = \frac{A\bm{x}}{||A\bm{x}||_1} $$
+We must first check that $T$ is well-defined. Since $A \ge 0$ is irreducible and $\bm{x} \in S$ (so $\bm{x} \ge 0, \bm{x} \ne \bm{0}$), the product $A\bm{x}$ is a nonnegative vector. Crucially, $A\bm{x} \ne \bm{0}$, otherwise $A$ would have a non-trivial vector in its null space, which is not possible for an irreducible nonnegative matrix with a non-zero vector $\bm{x}$. Thus, $||A\bm{x}||_1 > 0$ and $T(\bm{x})$ is well-defined.
+The function $T$ is continuous, as matrix multiplication and vector normalization (by a non-zero norm) are continuous operations. The image $T(\bm{x})$ is clearly nonnegative and has an $L_1$-norm of 1, so $T(S) \subseteq S$.
+
+\textbf{Step 2: The Fixed Point.}
+We have a continuous function $T$ mapping a compact, convex set $S$ into itself. By the Schauder Fixed-Point Theorem (Theorem \ref{thm:schauder}), $T$ must have a fixed point, which we call $\bm{y} \in S$.
+$$ T(\bm{y}) = \bm{y} \implies \frac{A\bm{y}}{||A\bm{y}||_1} = \bm{y} $$
+Rearranging this equation gives:
+$$ A\bm{y} = (||A\bm{y}||_1) \cdot \bm{y} $$
+This is precisely the eigenvector equation $A\bm{v} = \lambda\bm{v}$, where $\bm{y}$ is an eigenvector and its corresponding eigenvalue is $\lambda = ||A\bm{y}||_1$. Since $\bm{y} \in S$, we know $\bm{y} \ge 0$ and $\bm{y} \ne \bm{0}$.
+
+\textbf{Step 3: The Positivity.}
+We must show that $\bm{y}$ is strictly positive ($\bm{y} > 0$).
+We have $A\bm{y} = \lambda\bm{y}$. It follows that $(I+A)\bm{y} = (1+\lambda)\bm{y}$.
+For an irreducible, nonnegative matrix $A$, the matrix $(I+A)$ is also irreducible and nonnegative. A key result is that for such a matrix, $(I+A)^{n-1}$ is a strictly positive matrix (all entries are $> 0$).
+Let's apply this positive matrix to our eigenvector $\bm{y}$:
+$$ (I+A)^{n-1}\bm{y} = (1+\lambda)^{n-1}\bm{y} $$
+On the left-hand side, we are multiplying a strictly positive matrix, $(I+A)^{n-1}$, by a nonnegative, non-zero vector $\bm{y}$. The resulting vector must be strictly positive.
+Since the left side is $> 0$, the right side, $(1+\lambda)^{n-1}\bm{y}$, must also be $> 0$. Since $(1+\lambda)^{n-1}$ is just a positive scalar, the vector $\bm{y}$ itself must be strictly positive.
+Finally, since $A\bm{y} = \lambda\bm{y}$ and $\bm{y} > 0$, the vector $A\bm{y}$ must be non-zero (as $A$ is not the zero matrix), which implies $\lambda > 0$.
+\end{proof}
+
+\section{Proof of Uniqueness}
+We have proved the existence of *a* positive eigen-pair. We now show it is the *only* one.
+
+\begin{lemma}[Lemma 7 in \cite{main_paper}]\label{lem:pf_uniqueness}
+Let $A \ge 0$ be irreducible. There is (up to a scalar multiple) only one positive eigenvector, and it corresponds to a single eigenvalue.
+\end{lemma}
+\begin{proof}
+We first prove the eigenvalue is unique. Let's assume for contradiction that two positive eigen-pairs exist:
+\begin{align*}
+    A\bm{y} &= \lambda \bm{y}, \quad \text{with } \lambda > 0, \bm{y} > 0 \\
+    A\bm{z} &= \mu \bm{z}, \quad \text{with } \mu > 0, \bm{z} > 0
+\end{align*}
+Since $\bm{y} > 0$ and $\bm{z} > 0$, all their components $y_i, z_i$ are positive. We can therefore define a scalar $s$ as the maximum of the component-wise ratios:
+$$ s = \max_{i} \left( \frac{z_i}{y_i} \right) $$
+This $s$ is positive. By this definition, we have $s \ge \frac{z_i}{y_i}$ for all $i$, which implies $s y_i \ge z_i$. In vector form, $s\bm{y} \ge \bm{z}$.
+
+Now, we construct a new vector $\bm{x} = s\bm{y} - \bm{z}$. This vector has two properties:
+\begin{enumerate}
+    \item $\bm{x} \ge 0$ (since $s\bm{y} \ge \bm{z}$).
+    \item $\bm{x}$ is not strictly positive. Because $s$ is the *maximum* ratio, there must be at least one index $k$ where $s = z_k/y_k$, which means $x_k = s y_k - z_k = 0$.
+\end{enumerate}
+Since $\bm{x} \ge 0$, we have $A\bm{x} \ge 0$. Let's analyze $A\bm{x}$:
+\begin{align*}
+    A\bm{x} &= A(s\bm{y} - \bm{z}) = s(A\bm{y}) - (A\bm{z}) \\
+            &= s(\lambda \bm{y}) - (\mu \bm{z}) \\
+            &= \lambda(s\bm{y}) - \mu \bm{z}
+\end{align*}
+Using the trick of adding and subtracting $\lambda \bm{z}$:
+\begin{align*}
+    A\bm{x} &= \lambda(s\bm{y}) - \lambda \bm{z} + \lambda \bm{z} - \mu \bm{z} \\
+            &= \lambda(s\bm{y} - \bm{z}) + (\lambda - \mu)\bm{z} \\
+    A\bm{x} &= \lambda \bm{x} + (\lambda - \mu)\bm{z}
+\end{align*}
+We know $\bm{z} > 0$. If $\lambda > \mu$, then $(\lambda - \mu)\bm{z} > 0$. Since $\lambda \bm{x} \ge 0$, this would imply $A\bm{x} > 0$.
+If $\lambda < \mu$, then $(\lambda - \mu)\bm{z} < 0$, which could lead to $A\bm{x}$ having negative components, which we know is false (since $A \ge 0, \bm{x} \ge 0$).
+If $\lambda = \mu$, then $A\bm{x} = \lambda \bm{x}$.
+
+Let's assume $A\bm{x} = \lambda \bm{x}$. Since $A$ is irreducible, it can be shown that any non-negative eigenvector must be strictly positive. But we know $\bm{x}$ has a zero component $x_k=0$. This is a contradiction. The only way $\bm{x}$ can be a non-negative eigenvector and have a zero component is if $\bm{x} = \bm{0}$.
+If $\bm{x} = \bm{0}$, then $s\bm{y} = \bm{z}$, which means $\bm{y}$ and $\bm{z}$ are scalar multiples.
+If they are scalar multiples, then $A(s\bm{y}) = \mu(s\bm{y}) \implies s(A\bm{y}) = s\mu\bm{y} \implies s\lambda\bm{y} = s\mu\bm{y}$, which means $\lambda = \mu$.
+
+The logic in the paper (Lemma 7) is slightly more direct:
+From $A\bm{x} = \lambda \bm{x} + (\lambda - \mu)\bm{z}$, we know $A\bm{x} \ge \lambda \bm{x}$ (since we assume $\lambda \ge \mu$).
+However, the paper's argument uses irreducibility to claim $(A\bm{x})_k > 0$, which leads to $(\lambda - \mu)z_k > 0$ and thus $\lambda > \mu$.
+A symmetric argument by defining $s' = \max(y_i/z_i)$ gives $\mu > \lambda$. This is a contradiction, so we must have $\lambda = \mu$.
+The argument for $\bm{x}=\bm{0}$ then shows the eigenvector is unique.
+\end{proof}
+
+\begin{definition}[Perron Value and Perron Vector]
+For an irreducible $A \ge 0$, the unique positive eigenvalue $\lambda$ is called the \textbf{Perron value} (or Perron root), and the corresponding unique positive eigenvector $\bm{y}$ is called the \textbf{Perron vector}. We will denote the Perron value as $r$.
+\end{definition}
+
+\section{Proof of Dominance}
+We now prove that this unique positive eigenvalue is also the largest in magnitude.
+
+\begin{lemma}[Lemma 8 in \cite{main_paper}]\label{lem:pf_dominance}
+Let $A \ge 0$ be irreducible with Perron value $r$. Then $r = \rho(A)$, the spectral radius of $A$.
+\end{lemma}
+\begin{proof}
+We know $r$ is an eigenvalue, so by definition $\rho(A) \ge r$. We just need to show that for *any* eigenvalue $\lambda \in \sigma(A)$, we have $|\lambda| \le r$.
+
+Let $\lambda$ be any eigenvalue of $A$ (possibly complex) with a corresponding eigenvector $\bm{z}$.
+$$ A\bm{z} = \lambda \bm{z} $$
+Taking the component-wise absolute value and applying the triangle inequality:
+$$ |\lambda| |z_i| = \left|\sum_j A_{ij} z_j\right| \le \sum_j |A_{ij} z_j| = \sum_j A_{ij} |z_j| $$
+The last equality holds because $A \ge 0$. This gives the vector inequality:
+$$ |\lambda| |\bm{z}| \le A|\bm{z}| $$
+This is an inequality between two nonnegative vectors. To convert this to a scalar inequality, we use the \textbf{left Perron vector}.
+Since $A^T$ is also irreducible and nonnegative, it has a unique positive (left) eigenvector $\bm{y} > 0$ corresponding to the Perron value $r$ (which is the same for $A$ and $A^T$).
+$$ A^T \bm{y} = r\bm{y} \implies \bm{y}^T A = r \bm{y}^T $$
+We multiply our vector inequality on the left by $\bm{y}^T$. Since $\bm{y} > 0$, this preserves the inequality:
+$$ \bm{y}^T (|\lambda| |\bm{z}|) \le \bm{y}^T (A|\bm{z}|) $$
+$$ |\lambda| (\bm{y}^T |\bm{z}|) \le (\bm{y}^T A) |\bm{z}| $$
+Now, we substitute the property of the left eigenvector, $\bm{y}^T A = r \bm{y}^T$:
+$$ |\lambda| (\bm{y}^T |\bm{z}|) \le (r \bm{y}^T) |\bm{z}| = r (\bm{y}^T |\bm{z}|) $$
+The term $c = (\bm{y}^T |\bm{z}|)$ is a scalar. Since $\bm{y} > 0$ and $\bm{z}$ is an eigenvector (so $\bm{z} \ne \bm{0}$ and thus $|\bm{z}| \ne \bm{0}$), this scalar $c$ must be strictly positive.
+Since $c > 0$, we can divide by it:
+$$ |\lambda| \le r $$
+This shows that the magnitude of any eigenvalue $\lambda$ is no larger than $r$. Therefore, $r$ must be the spectral radius: $\rho(A) = r$.
+\end{proof}
+
+\section{Simplicity and Rotational Symmetry}
+We state the final two properties of the Perron-Frobenius theorem, which are given as Lemmas 9 and 10 in the paper's appendix.
+
+\begin{lemma}[Lemma 9 in \cite{main_paper}]
+The Perron value $r = \rho(A)$ is a \textbf{simple} eigenvalue (it has algebraic multiplicity 1).
+\end{lemma}
+\begin{proof}[Proof Outline]
+We have already shown in Lemma \ref{lem:pf_uniqueness} that the geometric multiplicity of $r$ is 1 (the eigenvector is unique). The proof for algebraic multiplicity 1 involves showing that $r$ is a simple root of the characteristic polynomial $p(\lambda) = \det(\lambda I - A)$. This is done by showing $p'(r) \ne 0$, which relies on properties of the adjugate matrix $\text{adj}(rI - A)$.
+\end{proof}
+
+\begin{lemma}[Lemma 10 in \cite{main_paper}]
+If $A$ has $k$ eigenvalues $\mu_0, \dots, \mu_{k-1}$ on the spectral circle (i.e., $|\mu_j| = \rho(A)$), then:
+\begin{enumerate}
+    \item These eigenvalues are the $k$ roots of unity, scaled by $\rho(A)$.
+    \item The spectrum $\sigma(A)$ is invariant under rotation by $2\pi/k$.
+\end{enumerate}
+\end{lemma}
+\begin{proof}[Proof Outline]
+The proof involves showing that if $A\bm{x} = \mu \bm{x}$ with $|\mu| = r$, then $A|\bm{x}| = r|\bm{x}|$. This implies $|\bm{x}|$ is the Perron vector. By constructing a diagonal matrix $D$ from the phases of the components of $\bm{x}$, one can show that $A$ is similar to $e^{i\theta}A$ (where $\mu = re^{i\theta}$), which means their spectra must be identical.
+\end{proof}
+
+% --- End of Chapter 2 Content ---
+
+
+% --- Chapter 3 Content ---
+\chapter{Analysis of Preliminary Result 1}
+
+This chapter is fully dedicated to the first lemma presented in the main body of the paper \cite{main_paper}. This lemma is a crucial first step, as it establishes the properties of the matrix $D-A$, which is a generalization of the graph Laplacian. The proof is a direct and clever application of the Perron-Frobenius theorem which we developed in Chapter 2.
+
+\begin{lemma}[Lemma 1 in \cite{main_paper}]\label{lem:paper_lemma1}
+Let $A$ be a symmetric, irreducible, nonnegative matrix and $D$ be a diagonal matrix of an appropriate order. Then the smallest eigenvalue of $D-A$ has multiplicity 1 and the corresponding eigenvector is positive, unique up to a scalar multiple.
+\end{lemma}
+\begin{proof}
+Let $L = D-A$. We want to find the properties of the smallest eigenvalue of $L$.
+The matrix $L$ is symmetric (since $A$ is symmetric and $D$ is diagonal). However, $L$ is generally not a nonnegative matrix. The off-diagonal entries of $L$ are $-a_{ij}$, which are $\le 0$ since $A \ge 0$.
+Therefore, we cannot apply the Perron-Frobenius theorem (Chapter 2) directly to $L$.
+
+The proof relies on a transformation. We construct a new matrix $M$ which will be nonnegative and irreducible, and whose eigensystem is directly related to that of $L$.
+
+Let $k$ be a scalar chosen to be large enough such that $kI - D$ is a nonnegative diagonal matrix. (For example, any $k$ such that $k \ge \max_i(d_{ii})$ will suffice).
+
+We define the matrix $M$ as:
+$$ M = kI - (D-A) = (kI - D) + A $$
+We must now check the properties of this new matrix $M$.
+\begin{enumerate}
+    \item \textbf{Nonnegative:} $A$ is nonnegative by hypothesis. $(kI - D)$ is a diagonal matrix with entries $k - d_{ii}$, which are nonnegative by our choice of $k$. The sum of two nonnegative matrices is nonnegative. Thus, $M \ge 0$.
+    
+    \item \textbf{Symmetric:} $A$ is symmetric and $(kI - D)$ is diagonal, hence symmetric. The sum of two symmetric matrices is symmetric. Thus, $M = M^T$.
+    
+    \item \textbf{Irreducible:} $M$ is the sum of an irreducible matrix $A$ and a nonnegative diagonal matrix $(kI-D)$. The off-diagonal entries of $M$ are the same as $A$. Therefore, the associated graph $\Gamma(M)$ has the same edges as $\Gamma(A)$. Since $A$ is irreducible, $\Gamma(A)$ is strongly connected, which implies $\Gamma(M)$ is strongly connected, and thus $M$ is irreducible.
+\end{enumerate}
+
+Now, since $M$ is a symmetric, irreducible, nonnegative matrix, the Perron-Frobenius theorem (Chapter 2) applies fully to $M$. This theorem guarantees that:
+\begin{itemize}
+    \item The spectral radius of $M$, $\rho(M)$, is an eigenvalue of $M$.
+    \item This eigenvalue, the Perron value $r = \rho(M)$, is \textbf{simple} (it has algebraic multiplicity 1).
+    \item The corresponding eigenvector, $\bm{v}$, is \textbf{strictly positive} ($\bm{v} > 0$) and is \textbf{unique} up to a scalar multiple.
+\end{itemize}
+This eigenvalue $\rho(M)$ is the \textit{largest} eigenvalue of $M$.
+
+The paper's proof states that "Rest of the proof is trivial." We will now show this connection explicitly.
+
+Let $\lambda_L$ be an eigenvalue of $L$ with eigenvector $\bm{v}$.
+$$ L\bm{v} = \lambda_L \bm{v} \implies (D-A)\bm{v} = \lambda_L \bm{v} $$
+Let us now apply the matrix $M$ to this same eigenvector $\bm{v}$:
+$$ M\bm{v} = (kI - (D-A))\bm{v} = kI\bm{v} - (D-A)\bm{v} = k\bm{v} - \lambda_L \bm{v} = (k - \lambda_L)\bm{v} $$
+This shows two critical facts:
+\begin{itemize}
+    \item $L$ and $M$ share the exact same eigenvectors.
+    \item If $\lambda_L$ is an eigenvalue of $L$, then $\lambda_M = k - \lambda_L$ is the corresponding eigenvalue of $M$.
+\end{itemize}
+This relationship provides a direct mapping between the spectra of $L$ and $M$. We are interested in the \textit{smallest} eigenvalue of $L$, which we denote $\lambda_{\min}(L)$. This corresponds to:
+$$ \lambda_M = k - \lambda_{\min}(L) $$
+Since $\lambda_{\min}(L)$ is the smallest possible $\lambda_L$, the corresponding $\lambda_M$ must be the \textit{largest} possible eigenvalue of $M$. By definition, the largest eigenvalue of $M$ is its spectral radius, $\rho(M)$.
+
+Therefore, we have found that $\rho(M) = k - \lambda_{\min}(L)$.
+
+From the Perron-Frobenius theorem, we know that $\rho(M)$ is a \textbf{simple} eigenvalue (multiplicity 1) and its corresponding eigenvector $\bm{v}$ is \textbf{positive and unique}.
+
+Since $L$ and $M$ share the same eigenvectors, the eigenvector corresponding to $\lambda_{\min}(L)$ is the same vector $\bm{v}$.
+
+Thus, the smallest eigenvalue of $L = D-A$, $\lambda_{\min}(L)$, must also be \textbf{simple} (multiplicity 1) and its corresponding eigenvector $\bm{v}$ must be \textbf{positive and unique}.
+\end{proof}
+
+% --- End of Chapter 3 Content ---
+
+
+% --- Chapter 4 Content ---
+\chapter{Analysis of the Remaining Preliminary Results}
+
+In this chapter, we prove the remaining preliminary results from \cite{main_paper}. These lemmas build upon one another, starting with the properties of the Fiedler vector (Lemma 2) and establishing important properties of principal submatrices that will be used in the main body of the paper.
+
+We begin by introducing a critical tool from matrix theory that is used in the proof of Lemma 2.
+
+\section{The Cauchy Interlacing Theorem}
+
+The Cauchy Interlacing Theorem relates the eigenvalues of a symmetric matrix to the eigenvalues of any of its principal submatrices.
+
+\begin{theorem}[Cauchy Interlacing Theorem]\label{thm:cauchy}
+Let $A$ be an $n \times n$ symmetric matrix and let $B$ be an $(n-1) \times (n-1)$ principal submatrix of $A$ (obtained by deleting the $k$-th row and $k$-th column for some $k$). Let the eigenvalues of $A$ be $\lambda_1 \le \lambda_2 \le \dots \le \lambda_n$ and the eigenvalues of $B$ be $\mu_1 \le \mu_2 \le \dots \le \mu_{n-1}$.
+Then the eigenvalues interlace:
+$$ \lambda_1 \le \mu_1 \le \lambda_2 \le \mu_2 \le \dots \le \mu_{n-1} \le \lambda_n $$
+\end{theorem}
+
+\begin{corollary}\label{cor:cauchy}
+If $L'$ is any principal submatrix of a symmetric matrix $L$, obtained by deleting $m$ rows and columns, then the $k$-th smallest eigenvalue of $L$ is less than or equal to the $k$-th smallest eigenvalue of $L'$.
+$$ \lambda_k(L) \le \lambda_k(L') $$
+Furthermore, $\lambda_k(L) \ge \lambda_{k-m}(L')$ (if $k > m$).
+\end{corollary}
+
+This theorem is the main tool used in the proof of Lemma 2.
+
+\section{Proof of Lemma 2 (Connectivity of Fiedler Vector Subgraphs)}
+
+\begin{lemma}[Lemma 2 in \cite{main_paper}]
+Let $G$ be a connected graph and let $Y$ be a Fiedler vector. Then the subgraph induced by the vertices $v$ in $G$ for which $Y(v) > 0$ is connected (similarly the subgraph induced by the vertices $v$ in $G$ for which $Y(v) \le 0$ is connected).
+\end{lemma}
+
+\begin{proof}
+Let $L$ be the Laplacian of $G$. Let $p = \lambda_2(L)$ be the algebraic connectivity, and let $Y$ be the corresponding Fiedler vector, so $LY = pY$.
+The proof is by contradiction.
+
+Suppose the subgraph induced by the set of vertices $V_+ = \{v \mid Y(v) > 0\}$ is \textit{not} connected.
+This means $V_+$ can be partitioned into at least two non-empty components. By applying a permutation similarity transformation (which does not change the eigenvalues), we can reorder the vertices of the graph. We group the vertices as follows:
+\begin{itemize}
+    \item Vertices of the first component of $V_+$, call this set $V_1$.
+    \item Vertices of the second (and other) components of $V_+$, call this set $V_2$.
+    \item Vertices with non-positive entries, $V_{\le 0} = \{v \mid Y(v) \le 0\}$.
+\end{itemize}
+Let $L'$ be the principal submatrix of $L$ corresponding to all the vertices in $V_+$. Because the subgraph on $V_+$ is not connected, $L'$ must be block-diagonal (after our permutation):
+$$ L' = \begin{pmatrix} L_{11} & \mathbf{0} \\ \mathbf{0} & L_{22} \end{pmatrix} $$
+where $L_{11}$ corresponds to vertices in $V_1$ and $L_{22}$ corresponds to vertices in $V_2$.
+
+Let $Y_+$ be the subvector of $Y$ corresponding to $V_+$. We partition it conformally as $Y_+ = \begin{bmatrix} Y_1 \\ Y_2 \end{bmatrix}$. Since $V_1$ and $V_2$ are non-empty components of $V_+$, both $Y_1$ and $Y_2$ are non-zero vectors with positive entries ($Y_1 > 0, Y_2 > 0$).
+Let $Y_{\le 0}$ be the subvector corresponding to $V_{\le 0}$.
+
+The full Laplacian $L$ is partitioned as:
+$$ L = \begin{pmatrix} L_{11} & \mathbf{0} & L_{13} \\ \mathbf{0} & L_{22} & L_{23} \\ L_{13}^T & L_{23}^T & L_{33} \end{pmatrix} $$
+The eigenvalue equation $LY = pY$ gives:
+$$ \begin{pmatrix} L_{11} & \mathbf{0} & L_{13} \\ \mathbf{0} & L_{22} & L_{23} \\ L_{13}^T & L_{23}^T & L_{33} \end{pmatrix} \begin{pmatrix} Y_1 \\ Y_2 \\ Y_{\le 0} \end{pmatrix} = p \begin{pmatrix} Y_1 \\ Y_2 \\ Y_{\le 0} \end{pmatrix} $$
+From the first block-row, we get $L_{11}Y_1 + L_{13}Y_{\le 0} = pY_1$, which we rearrange to:
+$$ (L_{11} - pI)Y_1 = -L_{13}Y_{\le 0} $$
+Let $\bm{z}_1 = -L_{13}Y_{\le 0}$. Let's analyze the entries of $\bm{z}_1$.
+\begin{itemize}
+    \item The entries of $L_{13}$ are off-diagonals of $L$, so $L_{13} \le 0$. This means $-L_{13} \ge 0$.
+    \item The entries of $Y_{\le 0}$ are $\le 0$. This means $-Y_{\le 0} \ge 0$.
+    \item The product $\bm{z}_1 = (-L_{13})(-Y_{\le 0})$ is $\ge 0$.
+\end{itemize}
+This does not match the paper's proof, which assumes $Y_-$ has only *negative* entries. Let's assume (as the paper's proof does) that $Y$ has no zero entries, so $V_{\le 0} = V_- = \{v \mid Y(v) < 0\}$.
+Let's restart that step.
+
+\textbf{Step 1: Contradiction Setup}
+Assume $V_+ = \{v \mid Y(v) > 0\}$ is not connected.
+Assume $Y$ has no zero entries (we can handle $Y(v)=0$ later). So the partition is $V_+$ and $V_- = \{v \mid Y(v) < 0\}$.
+$V_+$ is not connected, so $V_+ = V_1 \cup V_2$.
+The Laplacian is partitioned:
+$$ L = \begin{pmatrix} L_{11} & \mathbf{0} & L_{13} \\ \mathbf{0} & L_{22} & L_{23} \\ L_{13}^T & L_{23}^T & L_{33} \end{pmatrix} \quad Y = \begin{pmatrix} Y_1 \\ Y_2 \\ Y_{-} \end{pmatrix} $$
+Where $L_{33}$ corresponds to $V_-$, and $Y_1 > 0, Y_2 > 0, Y_- < 0$.
+
+\textbf{Step 2: Derive Eigenvalue Properties}
+The first block-row of $LY=pY$ is:
+$L_{11}Y_1 + L_{13}Y_- = pY_1 \implies (L_{11} - pI)Y_1 = -L_{13}Y_-$
+Let $\bm{z} = -L_{13}Y_-$.
+\begin{itemize}
+    \item $L_{13}$ has entries $\le 0$ (off-diagonals of $L$). So $-L_{13} \ge 0$.
+    \item $Y_-$ has entries $< 0$.
+    \item The product $\bm{z} = (-L_{13})(Y_-)$ must be $\le 0$ (nonpositive).
+\end{itemize}
+Since $G$ is connected, $L_{13}$ cannot be the zero matrix. Thus, $-L_{13}$ has at least one positive entry. Since $Y_- < 0$, the product $\bm{z}$ must have at least one strictly negative entry.
+So, $\bm{z} \le 0$ and $\bm{z} \ne \bm{0}$.
+
+We have $(L_{11} - pI)Y_1 = \bm{z}$.
+Now, consider the Rayleigh quotient for $L_{11}-pI$ with the vector $Y_1$:
+$$ Y_1^T (L_{11} - pI) Y_1 = Y_1^T \bm{z} $$
+Since $Y_1 > 0$ and $\bm{z} \le 0, \bm{z} \ne \bm{0}$, the dot product $Y_1^T \bm{z}$ must be strictly negative.
+$$ Y_1^T (L_{11} - pI) Y_1 < 0 $$
+If a symmetric matrix $M$ has $\bm{x}^T M \bm{x} < 0$ for some vector $\bm{x}$, it cannot be positive semidefinite, so it must have at least one negative eigenvalue.
+Thus, $L_{11} - pI$ has a negative eigenvalue. This implies $\lambda_{\min}(L_{11}) < p$.
+
+By an identical argument for the second block-row:
+$L_{22}Y_2 + L_{23}Y_- = pY_2 \implies (L_{22} - pI)Y_2 = -L_{23}Y_-$
+This proves $\lambda_{\min}(L_{22}) < p$.
+
+\textbf{Step 3: The Contradiction}
+Let $L'$ be the principal submatrix of $L$ for $V_+$. $L' = \begin{pmatrix} L_{11} & \mathbf{0} \\ \mathbf{0} & L_{22} \end{pmatrix}$.
+The eigenvalues of $L'$ are the union of $\sigma(L_{11})$ and $\sigma(L_{22})$.
+Since $\lambda_{\min}(L_{11}) < p$ and $\lambda_{\min}(L_{22}) < p$, $L'$ must have at least two eigenvalues that are smaller than $p$.
+Let the eigenvalues of $L'$ be $\mu_1 \le \mu_2 \le \dots$. We have $\mu_1 < p$ and $\mu_2 < p$.
+
+Now, we apply the Cauchy Interlacing Theorem (Corollary \ref{cor:cauchy}). $L'$ is a principal submatrix of $L$.
+$$ \lambda_k(L) \le \lambda_k(L') $$
+For $k=2$, we have $\lambda_2(L) \le \lambda_2(L')$.
+By definition, $\lambda_2(L) = p$. And we found $\lambda_2(L') = \mu_2 < p$.
+This gives $p \le \mu_2 < p$, which is a contradiction.
+
+The assumption that $V_+$ is not connected must be false.
+Thus, the subgraph induced by $\{v \mid Y(v) > 0\}$ is connected.
+
+The proof for $\{v \mid Y(v) \le 0\}$ is identical by using $-Y$ as the Fiedler vector (since $L(-Y) = p(-Y)$), which swaps the roles of the positive and non-positive sets.
+\end{proof}
+
+\section{Eigenvalue Properties of Submatrices}
+
+The remaining lemmas establish relationships between the eigenvalues of a matrix and its principal submatrices, which are essential tools for the paper's main theorems.
+
+\begin{lemma}[Lemma 3 in \cite{main_paper}]
+Let $C$ be an irreducible, symmetric, nonnegative matrix and $B$ be a principal submatrix of $C$. Then $\rho(B) < \rho(C)$.
+\end{lemma}
+\begin{proof}
+Let $C$ be $n \times n$ and $B$ be $m \times m$ with $m < n$.
+Since $B$ is a principal submatrix of $C$, $B \ge 0$. Let $r(B) = \rho(B)$ be its spectral radius. By Perron-Frobenius (Chapter 2), there exists an eigenvector $\bm{x} \ge 0$ for $B$ such that $B\bm{x} = r(B)\bm{x}$.
+
+We "pad" this vector $\bm{x}$ with zeros to create a vector $\bm{z}$ in $\mathbb{R}^n$, such that the entries of $\bm{z}$ are $x_i$ for indices corresponding to $B$, and 0 otherwise.
+$$ \bm{z} = \begin{pmatrix} \bm{x} \\ \bm{0} \end{pmatrix} \ge 0 $$
+(Assuming $P^T C P = \begin{pmatrix} B & E \\ E^T & F \end{pmatrix}$ for some permutation $P$).
+Now let's apply $C$ to $\bm{z}$.
+$$ C\bm{z} = \begin{pmatrix} B & E \\ E^T & F \end{pmatrix} \begin{pmatrix} \bm{x} \\ \bm{0} \end{pmatrix} = \begin{pmatrix} B\bm{x} \\ E^T \bm{x} \end{pmatrix} = \begin{pmatrix} r(B)\bm{x} \\ E^T \bm{x} \end{pmatrix} $$
+Since $C$ is irreducible, the block $E$ cannot be a zero matrix (otherwise $C$ would be reducible). Since $C \ge 0$ and $\bm{x} \ge 0$, we have $E^T \bm{x} \ge 0$. In fact, $E^T \bm{x}$ must contain at least one strictly positive entry.
+This means $C\bm{z} \ge r(B)\bm{z}$, and $C\bm{z} \ne r(B)\bm{z}$ (as the lower block is non-zero).
+
+Let $\bm{y}^T > 0$ be the left Perron vector of $C$, so $\bm{y}^T C = r(C) \bm{y}^T$.
+We multiply our vector inequality by $\bm{y}^T$:
+$$ \bm{y}^T (C\bm{z}) > r(B) (\bm{y}^T \bm{z}) $$
+(The inequality is strict because $C\bm{z} \ne r(B)\bm{z}$, $\bm{y} > 0$, and $C\bm{z} \ge r(B)\bm{z}$).
+Now, we use the left eigenvector property:
+$$ ( \bm{y}^T C) \bm{z} > r(B) (\bm{y}^T \bm{z}) $$
+$$ (r(C) \bm{y}^T) \bm{z} > r(B) (\bm{y}^T \bm{z}) $$
+$$ r(C) (\bm{y}^T \bm{z}) > r(B) (\bm{y}^T \bm{z}) $$
+Since $\bm{y} > 0$ and $\bm{z} \ge 0$ ($\bm{z} \ne 0$), the scalar $\bm{y}^T \bm{z}$ is strictly positive. We can divide by it to get:
+$$ r(C) > r(B) $$
+Thus, $\rho(C) > \rho(B)$.
+\end{proof}
+
+\begin{lemma}[Lemma 4 in \cite{main_paper}]
+Let $A = \begin{pmatrix} B & \bm{c} \\ \bm{c}^T & d \end{pmatrix}$ be a symmetric matrix. Let there exist a vector $\bm{U}$ such that $B\bm{U} = \bm{0}$ and $\bm{c}^T \bm{U} \ne 0$. Then $\lambda_1(A) < \lambda_1(B)$.
+\end{lemma}
+\begin{proof}
+Let $\lambda_1(B)$ be the smallest eigenvalue of $B$. The Rayleigh quotient for $B$ is $R_B(\bm{x}) = \frac{\bm{x}^T B \bm{x}}{\bm{x}^T \bm{x}}$. We know $\lambda_1(B) = \min_{\bm{x} \ne 0} R_B(\bm{x})$.
+Since $B\bm{U} = \bm{0}$, $\bm{U}$ is an eigenvector of $B$ with eigenvalue 0. This means $\lambda_1(B) \le 0$.
+Also, $\bm{U}^T B \bm{U} = \bm{U}^T(B\bm{U}) = 0$.
+
+Now, we construct a test vector for the Rayleigh quotient of $A$. Let $\bm{V} = \begin{pmatrix} t\bm{U} \\ \epsilon \end{pmatrix}$.
+The Rayleigh quotient for $A$ is:
+$$ R_A(\bm{V}) = \frac{\bm{V}^T A \bm{V}}{\bm{V}^T \bm{V}} = \frac{\begin{pmatrix} t\bm{U}^T & \epsilon \end{pmatrix} \begin{pmatrix} B & \bm{c} \\ \bm{c}^T & d \end{pmatrix} \begin{pmatrix} t\bm{U} \\ \epsilon \end{pmatrix}}{t^2\bm{U}^T \bm{U} + \epsilon^2} $$
+$$ = \frac{t^2\bm{U}^T B \bm{U} + 2t\epsilon \bm{c}^T \bm{U} + \epsilon^2 d}{t^2||\bm{U}||^2 + \epsilon^2} $$
+Since $\bm{U}^T B \bm{U} = 0$, this simplifies to:
+$$ R_A(\bm{V}) = \frac{2t\epsilon \bm{c}^T \bm{U} + \epsilon^2 d}{t^2||\bm{U}||^2 + \epsilon^2} $$
+Let $k = \bm{c}^T \bm{U} \ne 0$. We can choose $t=1$ and $\epsilon$ to be a very small real number.
+$$ R_A(\bm{V}) = \frac{2\epsilon k + \epsilon^2 d}{||\bm{U}||^2 + \epsilon^2} $$
+For sufficiently small $\epsilon$, we can make the numerator negative by choosing the sign of $\epsilon$ to be opposite the sign of $k$. For example, if $k > 0$, choose $\epsilon < 0$.
+As $\epsilon \to 0$, the numerator $2\epsilon k$ dominates $\epsilon^2 d$ and the denominator approaches $||\bm{U}||^2 > 0$.
+We can choose $\epsilon$ small enough to guarantee $R_A(\bm{V}) < 0$.
+The smallest eigenvalue of $A$ is $\lambda_1(A) = \min R_A(\bm{x})$. Since we found a vector $\bm{V}$ for which $R_A(\bm{V}) < 0$, we must have $\lambda_1(A) < 0$.
+Since $B\bm{U}=\bm{0}$, $0$ is an eigenvalue of $B$, so $\lambda_1(B) \le 0$.
+Thus, $\lambda_1(A) < 0 \le \lambda_1(B)$, which proves the result $\lambda_1(A) < \lambda_1(B)$.
+\end{proof}
+
+\begin{corollary}[Corollary 5 in \cite{main_paper}]
+Let $A = \begin{pmatrix} B & C \\ C^T & D \end{pmatrix}$ be symmetric, with $B, D$ square. Let $\bm{U}$ be a vector such that $B\bm{U} = \bm{0}$ and $C^T\bm{U} \ne \bm{0}$. Then $A$ has at least one more negative eigenvalue than $B$.
+\end{corollary}
+\begin{proof}
+Since $C^T\bm{U} \ne \bm{0}$, there must be at least one column $\bm{c}_j$ of $C$ (which is a row $\bm{c}_j^T$ of $C^T$) such that $\bm{c}_j^T \bm{U} \ne 0$.
+Let $d_j$ be the corresponding diagonal entry in $D$.
+Consider the principal submatrix $A_j = \begin{pmatrix} B & \bm{c}_j \\ \bm{c}_j^T & d_j \end{pmatrix}$.
+This $A_j$ is a principal submatrix of $A$.
+For $A_j$, the conditions of Lemma 4 are met: $B\bm{U} = \bm{0}$ and $\bm{c}_j^T \bm{U} \ne 0$.
+By Lemma 4, $\lambda_1(A_j) < \lambda_1(B)$.
+By the Cauchy Interlacing Theorem, the eigenvalues of $A_j$ interlace the eigenvalues of $A$. Specifically, $\lambda_k(A) \le \lambda_k(A_j)$ for all $k$.
+This implies $A$ must have at least as many negative eigenvalues as $A_j$.
+Let $\lambda_-(M)$ denote the number of negative eigenvalues of $M$.
+From Lemma 4, we know $\lambda_-(A_j) \ge \lambda_-(B) + 1$.
+From Interlacing, $\lambda_-(A) \ge \lambda_-(A_j)$.
+Combining these gives: $\lambda_-(A) \ge \lambda_-(A_j) \ge \lambda_-(B) + 1$.
+\end{proof}
+
+\begin{lemma}[Lemma 6 in \cite{main_paper}]
+Let $G$ be connected, $p$ the algebraic connectivity. Let $W$ be a set of vertices such that $G-W$ is disconnected. Let $G_1, G_2$ be two components of $G-W$ and $L_1, L_2$ be the principal submatrices of $L$ for $G_1, G_2$. If $\lambda_{\min}(L_1) \le p$ and $\lambda_{\min}(L_2) \le p$, then $\lambda_{\min}(L_1) = \lambda_{\min}(L_2) = p$.
+\end{lemma}
+\begin{proof}
+The proof is by contradiction. Let $r_1 = \lambda_{\min}(L_1)$ and $r_2 = \lambda_{\min}(L_2)$.
+We are given $r_1 \le p$ and $r_2 \le p$.
+Assume for contradiction that they are not both equal to $p$. Then at least one must be strictly less than $p$. WLOG, assume $r_1 < r_2 \le p$. (The paper's proof starts with $r_1 < r_2$, then shows this leads to a contradiction).
+
+Let's follow the paper's logic, which assumes $r_1 < r_2$. Let $\bm{U}$ be the positive eigenvector for $L_2$ such that $L_2 \bm{U} = r_2 \bm{U}$ (from Lemma \ref{lem:paper_lemma1}).
+Let $L_W$ be the block-diagonal principal submatrix of $L$ corresponding to $G-W$.
+We pad $\bm{U}$ with zeros to get a vector $\bm{U}'$ in the space of $L_W$.
+Then $L_W \bm{U}' = r_2 \bm{U}'$, so $(L_W - r_2 I)\bm{U}' = \bm{0}$.
+The full Laplacian $L$ can be partitioned $L = \begin{pmatrix} L_W & C \\ C^T & D_W \end{pmatrix}$.
+Since $G$ is connected, $G_2$ must be connected to $W$, so $C^T \bm{U}' \ne \bm{0}$.
+We now consider the matrix $L - r_2 I$:
+$$ L - r_2 I = \begin{pmatrix} L_W - r_2 I & C \\ C^T & D_W - r_2 I \end{pmatrix} $$
+We have a vector $\bm{U}'$ (in the $L_W$ space) such that $(L_W - r_2 I)\bm{U}' = \bm{0}$ and $C^T \bm{U}' \ne \bm{0}$.
+By Corollary \ref{cor:cauchy}, $\lambda_-(L - r_2 I) \ge \lambda_-(L_W - r_2 I) + 1$.
+The eigenvalues of $L_W - r_2 I$ are $\bigcup \sigma(L_i - r_2 I)$.
+\begin{itemize}
+    \item For $L_2$: $\lambda_{\min}(L_2 - r_2 I) = r_2 - r_2 = 0$.
+    \item For $L_1$: $\lambda_{\min}(L_1 - r_2 I) = r_1 - r_2 < 0$ (by our assumption $r_1 < r_2$).
+\end{itemize}
+Thus, $L_W - r_2 I$ has at least one negative eigenvalue, so $\lambda_-(L_W - r_2 I) \ge 1$.
+Plugging this in: $\lambda_-(L - r_2 I) \ge 1 + 1 = 2$.
+This means $L - r_2 I$ has at least two negative eigenvalues. This implies $L$ has at least two eigenvalues smaller than $r_2$.
+$$ \lambda_1(L) < r_2 \quad \text{and} \quad \lambda_2(L) < r_2 $$
+Since $\lambda_2(L) = p$, this gives $p < r_2$.
+This contradicts our initial hypothesis that $r_2 \le p$.
+Thus, the assumption $r_1 < r_2$ is false. By symmetry, $r_2 < r_1$ is also false.
+
+The only remaining possibility is $r_1 = r_2$. Let $r = r_1 = r_2$. Our hypothesis is $r \le p$.
+By Cauchy Interlacing, $\lambda_2(L) \le \lambda_2(L_W)$.
+The eigenvalues of $L_W$ are $\bigcup \sigma(L_i)$. The smallest is 0. The second smallest is $\min(r_1, r_2) = r$.
+So $\lambda_2(L_W) = r$.
+This gives $\lambda_2(L) \le r$, which is $p \le r$.
+Combined with $r \le p$, we must have $r = p$.
+\end{proof}
+% --- End of Chapter 4 Content ---
+
+% --- Chapter 5 Content ---
+\chapter{Theorems on Fiedler Vectors and Characteristic Sets}
+
+We now arrive at the final set of preliminary results. These proofs synthesize all the tools we have developed so far: the Perron-Frobenius properties (Chapter 2), the simplicity of $\lambda_{\min}$ (Chapter 3), and the eigenvalue comparison lemmas (Chapter 4). These results deal directly with the properties of the Fiedler vector $Y$ and its zero entries (the characteristic set).
+
+\begin{corollary}[Corollary 7 in \cite{main_paper}]
+Let $G$ be a connected graph and $Y$ be a Fiedler vector. Let $W = \{u \mid Y(u) = 0\}$ be a nonempty set of vertices. Suppose $G-W$ is disconnected with at least two components, $G_1$ and $G_2$, having corresponding subvectors $Y_1$ and $Y_2$ that are not zero vectors. Let $L_1$ and $L_2$ be the principal submatrices of $L$ corresponding to $G_1$ and $G_2$. Then
+$$ \lambda_{\min}(L_1) = \lambda_{\min}(L_2) = p $$
+and for each $i=1, 2$, all entries of $Y_i$ are nonzero and of the same sign.
+\end{corollary}
+\begin{proof}
+We are given $LY = pY$ and $Y(u) = 0$ for all $u \in W$.
+Let us partition the Laplacian $L$ according to the components $G_i$ and the set $W$.
+For any component $G_i$, the equation $LY=pY$ implies:
+$$ L_i Y_i + C_W Y_W = p Y_i $$
+where $L_i$ is the principal submatrix for $G_i$, $C_W$ contains the connections from $G_i$ to $W$, and $Y_W$ is the subvector on $W$.
+By hypothesis, $Y_W = \bm{0}$. Therefore, the equation simplifies to:
+$$ L_i Y_i = p Y_i $$
+This holds for both $G_1$ and $G_2$. Since $Y_1$ and $Y_2$ are non-zero vectors by hypothesis, this means $p$ is an eigenvalue for both $L_1$ and $L_2$, with corresponding eigenvectors $Y_1$ and $Y_2$.
+
+Since $G_i$ is a component of $G-W$, it is a connected graph, and its Laplacian submatrix $L_i$ is irreducible.
+By Lemma \ref{lem:paper_lemma1}, the smallest eigenvalue of $L_i$, $\lambda_{\min}(L_i)$, is simple and corresponds to a positive eigenvector.
+Since $p$ is an eigenvalue of $L_i$, we must have $\lambda_{\min}(L_i) \le p$. This is true for both $i=1$ and $i=2$.
+
+We are now in the exact situation of Lemma 6 from the previous chapter. We have two components $G_1, G_2$ of $G-W$ such that $\lambda_{\min}(L_1) \le p$ and $\lambda_{\min}(L_2) \le p$.
+By Lemma 6, this forces the conclusion that $\lambda_{\min}(L_1) = \lambda_{\min}(L_2) = p$.
+
+Furthermore, since $p = \lambda_{\min}(L_i)$ and this smallest eigenvalue is simple, the eigenvector $Y_i$ must be a scalar multiple of the unique positive eigenvector for $L_i$.
+This means $Y_i$ must be either strictly positive ($Y_i > 0$) or strictly negative ($Y_i < 0$), and in particular, $Y_i$ has no zero entries.
+\end{proof}
+
+\begin{theorem}[Theorem 8 in \cite{main_paper}]
+Let $Y$ be a Fiedler vector with no zero entries. Let $F = \{e_i = [u_i, w_i] \mid Y(u_i) > 0, Y(w_i) < 0\}$ be the set of characteristic edges. Let $G_1$ and $G_2$ be the two components of $G-F$ (guaranteed by Lemma 2). Let $L_1$ and $L_2$ be the principal submatrices corresponding to $G_1$ and $G_2$. Then:
+$$ \lambda_{\min}(L_1) < p \quad \text{and} \quad \lambda_{\min}(L_2) < p $$
+\end{theorem}
+\begin{proof}
+The matrix $L_F$ corresponding to $G-F$ is block-diagonal $L_F = \begin{pmatrix} L_1 & \mathbf{0} \\ \mathbf{0} & L_2 \end{pmatrix}$.
+The full Laplacian $L$ is formed by adding the characteristic edges back. After permutation, $L$ can be written as:
+$$ L = \begin{pmatrix} L_1 & -B \\ -B^T & L_2 \end{pmatrix} $$
+where $-B$ (and $-B^T$) represents the characteristic edges in $F$. Since $F$ is non-empty, $B$ is a nonnegative matrix and $B \ne \mathbf{0}$.
+Let $Y$ be partitioned conformally as $Y = \begin{pmatrix} Y_1 \\ Y_2 \end{pmatrix}$. By Lemma 2, $G_1$ and $G_2$ are connected, and by hypothesis $Y$ has no zero entries. This means $Y_1 > 0$ and $Y_2 < 0$.
+
+The eigenvalue equation $LY = pY$ gives:
+$$ \begin{pmatrix} L_1 & -B \\ -B^T & L_2 \end{pmatrix} \begin{pmatrix} Y_1 \\ Y_2 \end{pmatrix} = p \begin{pmatrix} Y_1 \\ Y_2 \end{pmatrix} $$
+From the first block-row:
+$$ L_1 Y_1 - B Y_2 = p Y_1 \implies (L_1 - pI)Y_1 = B Y_2 $$
+Let $\bm{z} = B Y_2$.
+\begin{itemize}
+    \item $B \ge 0$ and $B \ne \mathbf{0}$ (since $F$ is non-empty).
+    \item $Y_2 < 0$ (all entries are negative).
+    \item Therefore, the product $\bm{z} = B Y_2$ must be nonpositive ($\bm{z} \le 0$) and non-zero ($\bm{z} \ne \bm{0}$).
+\end{itemize}
+We have $(L_1 - pI)Y_1 = \bm{z}$. Consider the Rayleigh quotient with $Y_1$:
+$$ Y_1^T (L_1 - pI) Y_1 = Y_1^T \bm{z} $$
+Since $Y_1 > 0$ and $\bm{z} \le 0, \bm{z} \ne \bm{0}$, the dot product $Y_1^T \bm{z}$ must be strictly negative.
+$$ Y_1^T (L_1 - pI) Y_1 < 0 $$
+This implies $L_1 - pI$ is not positive semidefinite, so it must have at least one negative eigenvalue. Thus, $\lambda_{\min}(L_1) < p$.
+
+A symmetric argument holds for the second block-row:
+$$ -B^T Y_1 + L_2 Y_2 = p Y_2 \implies (L_2 - pI)Y_2 = B^T Y_1 $$
+Let $\bm{w} = B^T Y_1$. Since $B^T \ge 0, B^T \ne \mathbf{0}$ and $Y_1 > 0$, we have $\bm{w} \ge 0, \bm{w} \ne \bm{0}$.
+We have $(L_2 - pI)Y_2 = \bm{w}$. Consider the Rayleigh quotient with $Y_2$:
+$$ Y_2^T (L_2 - pI) Y_2 = Y_2^T \bm{w} $$
+Since $Y_2 < 0$ and $\bm{w} \ge 0, \bm{w} \ne \bm{0}$, the dot product $Y_2^T \bm{w}$ must be strictly negative.
+This implies $L_2 - pI$ also has a negative eigenvalue, so $\lambda_{\min}(L_2) < p$.
+\end{proof}
+
+\begin{lemma}[Lemma 9 in \cite{main_paper}]
+Let $Y$ be a Fiedler vector and $U = \{u \mid Y(u) = 0\}$ be non-empty. Suppose $G-U$ has only one component $G'$ with $Y(v) \ne 0$. Let $L'$ be the principal submatrix for $G'$. Then:
+\begin{enumerate}
+    \item[(i)] The algebraic connectivity $p$ is the second smallest eigenvalue of $L'$.
+    \item[(ii)] The subgraph $G_+$ (on $Y>0$ vertices) is connected, and $G_-$ (on $Y<0$ vertices) is connected.
+    \item[(iii)] If there are two distinct characteristic edges, they lie on a simple cycle.
+\end{enumerate}
+\end{lemma}
+\begin{proof}
+(i) As shown in the proof of Corollary 7, $LY=pY$ and $Y(U) = \bm{0}$ implies $L'Y' = pY'$, where $Y'$ is the subvector of $Y$ on $G'$. Since $G'$ is the *only* non-zero component, it must contain all positive and all negative vertices. Thus, $Y'$ has mixed signs.
+Since $G'$ is a component, it is connected, and $L'$ is irreducible. By Lemma \ref{lem:paper_lemma1}, the smallest eigenvalue $\lambda_1(L')$ must correspond to a positive eigenvector.
+Since $Y'$ has mixed signs, $Y'$ cannot be the eigenvector for $\lambda_1(L')$.
+Thus, $p$ must be a different eigenvalue, so $p \ge \lambda_2(L')$.
+By the Cauchy Interlacing Theorem, $L'$ is a principal submatrix of $L$, so $\lambda_k(L) \le \lambda_k(L')$. For $k=2$:
+$$ p = \lambda_2(L) \le \lambda_2(L') $$
+Combining $p \ge \lambda_2(L')$ and $p \le \lambda_2(L')$, we must have $p = \lambda_2(L')$.
+
+(ii) Since $p = \lambda_2(L')$, $Y'$ is the Fiedler vector for the connected graph $G'$. By Lemma 2, the subgraph of $G'$ induced by $Y' > 0$ (which is $G_+$) must be connected. Similarly, the subgraph induced by $Y' < 0$ (which is $G_-$) must be connected. (Note: the paper's $Y' \le 0$ case includes the zero-vertices, but Lemma 2's proof holds for $Y' < 0$).
+
+(iii) This follows from (ii). Let $e_1 = [u_1, v_1]$ and $e_2 = [u_2, v_2]$ be two characteristic edges, where $u_1, u_2 \in G_+$ and $v_1, v_2 \in G_-$.
+Since $G_+$ is connected, there exists a simple path $P_+$ from $u_1$ to $u_2$ consisting only of positive vertices.
+Since $G_-$ is connected, there exists a simple path $P_-$ from $v_1$ to $v_2$ consisting only of negative vertices.
+The union of $P_+$, $P_-$, $e_1$, and $e_2$ forms a simple cycle containing both characteristic edges.
+\end{proof}
+% --- End of Chapter 5 Content ---
+
+
+% --- Chapter 6 Content ---
+\chapter{Conclusion and Future Work}
+
+\section{Summary of Work}
+In this report, we have successfully conducted a detailed survey of the mathematical foundations required for the paper "Algebraic connectivity and the characteristic set of a graph" \cite{main_paper}. The primary goal was to rigorously prove all preliminary results, which are presented in the paper with minimal proof.
+
+This was achieved by:
+\begin{itemize}
+    \item Establishing the fundamental connection between nonnegative matrices and graph theory, proving that a reducible matrix is equivalent to one that is permutation similar to a block upper-triangular matrix (Theorem \ref{thm:reducible_structure}).
+    
+    \item Developing the complete proof of the Perron-Frobenius theorem from first principles. We used the Schauder Fixed-Point Theorem to prove the existence of a positive eigen-pair (Lemma \ref{lem:pf_existence}) and then proved its uniqueness (Lemma \ref{lem:pf_uniqueness}) and dominance (Lemma \ref{lem:pf_dominance}).
+    
+    \item Applying the Perron-Frobenius theorem to prove Lemma \ref{lem:paper_lemma1}, which establishes the simplicity and positivity of the smallest eigenvalue for a generalized Laplacian matrix $D-A$.
+    
+    \item Introducing key analytical tools, most notably the Cauchy Interlacing Theorem (Theorem \ref{thm:cauchy}) and the eigenvalue properties of bordered matrices (Lemma 4 and Corollary 5).
+    
+    \item Using these tools to provide full, detailed proofs for all the main preliminary results, from the connectivity of Fiedler vector subgraphs (Lemma 2) to the properties of components in graphs partitioned by zero-nodes (Lemma 6, Corollary 7, and Lemma 9) and characteristic edges (Theorem 8).
+\end{itemize}
+This foundational work provides a complete and self-contained understanding of all the tools used in the target paper.
+
+\section{Future Work}
+The work completed in this report constitutes the first part of the project. The logical next phase is to apply this foundational knowledge to analyze the main contributions of the paper \cite{main_paper}. The objectives for Project Part II will be:
+\begin{itemize}
+    \item To study the new characterizations of the Fiedler vector based on its characteristic set.
+    \item To analyze the main theorems of the paper, which describe the structure of the characteristic set (e.g., Theorem 10 in the paper).
+    \item To investigate the properties of the "Perron branches" defined in the paper and their relationship to the algebraic connectivity.
+    \item If time permits, to re-implement any numerical examples or algorithms presented in the paper to gain a practical understanding of the theoretical findings.
+\end{itemize}
+This foundational study ensures that we are well-equipped to tackle these more advanced topics in the second phase of the project.
+
+% --- End of Chapter 6 Content ---
+
+
+% ============================
+% --- BIBLIOGRAPHY ---
+% ============================
+\bibliographystyle{abbrv}
+\bibliography{references} % This looks for 'references.bib'
+
+\end{document}
+% -----------------------------------------------------------------
+% --- DOCUMENT ENDS ---
+% -----------------------------------------------------------------

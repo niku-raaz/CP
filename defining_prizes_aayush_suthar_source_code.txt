@@ -1,0 +1,90 @@
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+using namespace std;
+
+template <typename T>
+using ordered_set = tree<T, null_type, std::less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+
+
+#define endl '\n'
+#define pi pair<long long, long long>
+#define f first
+#define s second
+#define MOD 1000000007
+#define mod 998244353
+
+typedef long long lli;
+
+
+void Solve(lli Case , ifstream &in, ofstream &out){
+    out<<"Case #"<<Case<<": ";
+
+    lli n , m;
+    in>>n>>m;
+
+    vector<lli> a(n) , b(m);
+    map<lli , lli> mp;
+    for(int i = 0 ; i < n ; i++){
+        in>>a[i];
+        mp[a[i]]++;
+    }
+    for(int i = 0 ; i < m ; i++){
+        in>>b[i];
+    }
+
+    vector<lli> A;
+    for(auto it : mp){
+        A.push_back(it.f);
+    }
+
+    lli low = 0ll , high = (lli)A.size() - 1 , ans = 0;
+
+    while(low <= high){
+        lli mid = (low + high) >> 1;
+        lli x = 0 , need = 0;
+        for(lli i = mid ; i < A.size() ; i++){
+            x += mp[A[i]];
+            need += (i - mid + 1) * mp[A[i]];
+        }
+        lli have = 0;
+        for(int i = 0 ; i < m ; i++){
+            have += min(x , b[i]);
+        }
+        
+        if( need <= have && mid >= (lli)A.size() - m ){
+            ans = x;
+            high = mid - 1;
+        }else{
+            low = mid + 1;
+        }
+    }
+
+    out<<ans<<endl;
+}
+
+int main(){
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    ifstream in("input.txt");
+    ofstream out("output.txt", ios::trunc);
+
+    if (!in.is_open()) {
+        cerr << "Error: Could not open input.txt for reading." << endl;
+        return 1;
+    }
+    if (!out.is_open()) {
+        cerr << "Error: Could not open output.txt for writing." << endl;
+        return 1;
+    }
+
+    lli t = 1 , cnt = 1;
+    in>>t;
+    while(t--){
+        Solve(cnt , in , out);
+        cnt++;
+    }
+    return 0;
+}

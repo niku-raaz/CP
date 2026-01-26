@@ -1,0 +1,1 @@
+{"name":"Local: parse_log","url":"c:\\Users\\user\\Desktop\\CP\\parse_log.cpp","tests":[{"id":1763427936034,"input":"\"u1,20,17123000\"\n\"u2,40,17123100\"\n\"u1,10,17124000\"\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\user\\Desktop\\CP\\parse_log.cpp","group":"local","local":true}

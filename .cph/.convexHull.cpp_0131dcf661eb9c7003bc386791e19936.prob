@@ -1,0 +1,1 @@
+{"name":"Local: convexHull","url":"c:\\Users\\user\\Desktop\\CP\\convexHull.cpp","tests":[{"id":1761901692104,"input":"6\n0 0\n1 1\n2 2\n2 0\n2 1\n1 0\n","output":"4\n0 0\n2 0\n2 2\n0 0\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\user\\Desktop\\CP\\convexHull.cpp","group":"local","local":true}

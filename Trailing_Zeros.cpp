@@ -9,7 +9,7 @@
 #include <cstdio>
 using namespace std;
    
-#define int long long 
+
 #define ll long long 
 #define nl cout<<endl; 
 #define raaz ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
@@ -127,26 +127,16 @@ long long binpow(long long a, long long b, long long m) {
    
    
 void solve(){
-  take(n);
+  
+  int a=5;
 
-  int ans=0;
-
-  int bas=5;
-
-
-  while(1){
-
-    if(bas>1e9){
-      break;
-    }
-
-    ans+=(n/bas);
-    bas*=5;
+  int *ptr= a;
 
 
+  cout<<(*ptr)<<" "<<ptr;pl;
 
-  }
-  cout<<ans;
+  (*ptr)=6;
+   cout<<(*ptr)<<" "<<ptr<<" "<<a;pl;
 
 
 

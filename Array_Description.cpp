@@ -139,7 +139,6 @@ void solve(){
 
     for(int i=2;i<=n;i++){
       if(a[i]!=0 && a[i-1]!=0){
-
         if(abs(a[i]-a[i-1])>1){
           cout<<0;
           return;
@@ -150,116 +149,60 @@ void solve(){
     vector<vector<int>> dp(n+1,vector<int>(m+1,0));
 
     for(int i=1;i<=n;i++){
-
       if(i==1){
-
         if(a[i]==0){
-
           for(int j=1;j<=m;j++){
             dp[i][j]=1;
           }
-
         }else{
           dp[i][a[i]]=1;
         }
 
-
       }else{
-
         if(a[i]==0){
-
           for(int j=1;j<=m;j++){
-
             dp[i][j]=(dp[i-1][j]);
-
             if(j-1>=1){
               dp[i][j]+=dp[i-1][j-1];
               dp[i][j]%=mod;
             }
-
             if(j+1<=m){
               dp[i][j]+=dp[i-1][j+1];
               dp[i][j]%=mod;
             }
-
-            
-
           }
-
-
-
-
         }else{
-
           dp[i][a[i]]=1;
-
           // saare previouse ko adjust
-
           for(int j=1;j<=m;j++){
-
             if(abs(j-a[i])>1){
-
-
               dp[i-1][j]=0;
-
             }
-
           }
-
-
         }
-
-
-
       }
-
-
-
     }
-
     int ans=0;
-
     vector<int> v(n+1,-1);
-
     for(int i=1;i<=n;i++){
       ans=0;
       if(a[i]==0){
-
         if(i==n){
-
           for(int j=1;j<=m;j++){
             ans+=dp[i][j];
             ans%=mod;
-
           }
           v[i]=ans;
-
-
         }else{
           if(a[i+1]!=0){
-
             for(int j=1;j<=m;j++){
-            ans+=dp[i][j];
-            ans%=mod;
-
-             }
-
-             v[i]=ans;
-
-
-
-
+              ans+=dp[i][j];
+              ans%=mod;
+            }
+            v[i]=ans;
           }
-
-
         }
-
-
       }
-
-      
-
-
     }
 
     int res=1;
@@ -268,19 +211,12 @@ void solve(){
 
     for(int i=1;i<=n;i++){
       if(v[i]!=-1){
-
         res*=v[i];
         res%=mod;
-
       }
     }
-
     cout<<res;pl;
 
-
-   
-
-        
 }
    
    

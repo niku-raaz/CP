@@ -1,0 +1,1 @@
+{"name":"Local: bincatmod","url":"c:\\Users\\user\\Desktop\\CP\\bincatmod.cpp","tests":[{"id":1762432873427,"input":"3\n1\n2\n3\n4","output":"1\n110\n11011\n11011100"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\user\\Desktop\\CP\\bincatmod.cpp","group":"local","local":true}

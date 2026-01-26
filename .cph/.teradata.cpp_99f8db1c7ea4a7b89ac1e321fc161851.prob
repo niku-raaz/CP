@@ -1,0 +1,1 @@
+{"name":"Local: teradata","url":"c:\\Users\\user\\Desktop\\CP\\teradata.cpp","tests":[{"id":1761849091922,"input":"5\n10 10 4 4 12\n1 2\n2 3\n2 4\n3 5","output":"34 22 9 3 6"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\user\\Desktop\\CP\\teradata.cpp","group":"local","local":true}

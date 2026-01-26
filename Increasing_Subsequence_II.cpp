@@ -1,76 +1,96 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <set>
-
+#include<bits/stdc++.h>
 using namespace std;
+#define int long long
 
-const int MOD = 1e9 + 7;
-
-struct FenwickTree {
-    vector<int> bit;
-    int size;
-    FenwickTree(int sz) {
-        size = sz;
-        bit.assign(sz + 1, 0);
+int mod=1e9+7;
+class BIT{
+    vector<int> p;
+    public:
+    BIT(int n){
+        p.resize(n+1,0);
     }
 
-    void update(int idx, int delta) {
-        for (; idx <= size; idx += idx & -idx) {
-            bit[idx] = (bit[idx] + delta) % MOD;
-        }
+    void update(int ind,int val){
+         for(ind;ind<p.size();ind+=(ind&(-ind))){
+            p[ind]+=val;
+            p[ind]%=mod;
+         }
     }
 
-    int query(int idx) {
-        int sum = 0;
-        for (; idx > 0; idx -= idx & -idx) {
-            sum = (sum + bit[idx]) % MOD;
+    int query(int ind){
+        int sum=0LL;
+        for(ind;ind>0;ind-=(ind&(-ind))){
+            sum+=p[ind];
+            sum%=mod;
         }
         return sum;
     }
+
+    int query(int l,int r){
+        int ans=query(r)-query(l-1);
+        ans+=mod;
+        ans%=mod;
+        return ans;
+    }
+
 };
-
-int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-
-    int n;
-    cin >> n;
-
-    vector<int> a(n);
-    set<int> unique_vals_set;
-    for (int i = 0; i < n; ++i) {
-        cin >> a[i];
-        unique_vals_set.insert(a[i]);
-    }
-
-    vector<int> unique_vals(unique_vals_set.begin(), unique_vals_set.end());
-    int m = unique_vals.size();
-    FenwickTree ft(m);
-
-    for (int i = 0; i < n; ++i) {
-        // Find the rank of the current element a[i].
-        // lower_bound returns an iterator to the first element not less than a[i].
-        // The distance from the beginning gives us the 0-based index. We add 1 for 1-based rank.
-        int rank = lower_bound(unique_vals.begin(), unique_vals.end(), a[i]) - unique_vals.begin() + 1;
-
-        // Query for the sum of subsequences ending with a value smaller than a[i].
-        // This corresponds to querying the sum of ranks up to 'rank - 1'.
-        int sum_smaller = ft.query(rank - 1);
-
-        // The number of new subsequences ending with the current a[i] is 1 (for the element itself)
-        // plus the sum of all subsequences ending with smaller elements.
-        int count = (1 + sum_smaller) % MOD;
-
-        // The total number of IS ending with value unique_vals[rank-1] was `ft.query(rank) - ft.query(rank-1)`.
-        // We need to add `count` new ones, but we also must remove the old ones to avoid double-counting
-        // when we update.
-        int old_count = (ft.query(rank) - ft.query(rank - 1) + MOD) % MOD;
-        ft.update(rank, (count - old_count + MOD) % MOD);
-    }
-
    
-    cout << ft.query(m) << endl;
+   
+int32_t main(){
+    int n;cin>>n;
+    vector<int> a(n);
+    for(int i=0;i<n;i++){
+        cin>>a[i];
+    }
 
-    return 0;
+    vector<int> dp(n,1);
+    BIT F(n);
+
+    // dp[i] -> number of  Incresing subsequnces ending with i
+
+    vector<int> sub;
+
+    dp[0]=1;
+    sub.push_back(a[0]);
+    F.update(1,1);
+
+    for(int i=1;i<n;i++){
+        if(a[i]>sub.back()){
+            // we can extend it from whole sub
+            //  dp[i]=sum(dp[i-1]+.....+dp[0])
+            
+            int res=F.query(1,i);
+            dp[i]=res;
+            F.update(i+1,dp[i]);
+            sub.push_back(a[i]);
+        }else{
+
+            // there exist som index which is >a[i]
+            int lo=lower_bound(sub.begin(),sub.end(),a[i])-sub.begin();
+
+            a[lo]=a[i];
+
+            //dp[i]= sum(dp[0]+dp[1]+.......+dp[lo-1])
+            int res=F.query(1,lo);
+            dp[i]=res;
+            F.update(i+1,dp[i]);
+
+
+        }
+    }
+
+    int ans=0;
+    for(int i=0;i<n;i++){
+        ans+=dp[i];
+        ans%=mod;
+        cout<<dp[i]<<" ";
+    }
+
+    cout<<ans;
+
+    
+    
+   
+   
+ return 0;
 }

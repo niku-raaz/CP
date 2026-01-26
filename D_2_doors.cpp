@@ -95,34 +95,12 @@ void solve(){
         queries[ind]={i,j,x};
     }
 
+    // process each bits separately
 
-    sort(queries.begin(),queries.end(),[&](vector<int>&x,vector<int>& y){
-         if(x[0]!=y[0]){
-            return x[0]>y[0];
-         }
-         return x[1]>y[1];
-    });
+    
 
 
-
-    for(int ind=0;ind<m;ind++){
-        int i=queries[ind][0];
-        int j=queries[ind][1];
-        int x=queries[ind][2];
-
-        // see all the bits
-        // from 0 to 30
-
-        for(int b=0;b<=30;b++){
-            int p=(a[i]>>b)&1;
-            int q=(a[j]>>b)&1;
-            int r=(x>>b)&1;
-
-            
-        }
-    }
-
-    show(a);
+    
         
 }
    
