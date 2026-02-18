@@ -70,14 +70,67 @@ long long binpow(long long a, long long b, long long m) {
    }
   return res;
 }  
+
+
+int fact[101];
+int mod=998244353;
+
+void pre(){
+  fact[0]=1;
+  fact[1]=1;
+
+  for(int i=2;i<=100;i++){
+      fact[i]=fact[i-1]*i;
+      fact[i]%=mod;
+  }
+}
+
+int mul(int x, int y) {
+  return x * 1LL * y % mod;
+}
+
+
 void solve(){
     take(n);
-    takevec(a,n+1);
-    int mod=998244353;
+    vector<int> a(n+1);
 
-    //  a[i] <= 1e6 ??
-    //  use somthing from here 
-    //  
+    for(int i=0;i<=n;i++){
+      cin>>a[i];
+    }
+
+    int sum=0;
+    for(auto x: a){
+      sum+=x;
+    }
+
+    int k=sum/n;
+    int r=sum%n;
+
+    int z=0;
+    int bad=0;
+
+    for(int i=1;i<=n;i++){
+      int x=min(a[i],k);
+      a[i]-=x;
+      a[0]-=(k-x);
+
+      z+= (a[i]==0);
+      bad |= (a[i]>1 || a[0]<0);
+    }
+
+    bad |= (a[0]>z);
+
+    int ans= bad ? 0 : fact[z];
+
+    if(!bad){
+      ans=mul(ans,fact[n-z+a[0]]);
+      ans=mul(ans,binpow(fact[a[0]],mod-2,mod));
+    }
+
+    cout<<ans;pl;
+
+
+
         
 }
    
@@ -87,7 +140,7 @@ int32_t main(){
         raaz
    // freopen("input.txt","r",stdin);
    // freopen("output.txt","w",stdout);
-    
+        pre();
         int test_case=1; 
         cin>>test_case; 
         for(int xyz=1;xyz<=test_case;xyz++){

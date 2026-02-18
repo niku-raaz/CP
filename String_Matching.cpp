@@ -41,16 +41,11 @@ void pre() {
     }
 }
 
-
-
-
 class Hash{
     string s;
     int n;
     vector<int> pfx,pfx2;
-    
     public:
-
     Hash(string& str){
         s=str;
         n=s.size();
@@ -58,9 +53,7 @@ class Hash{
         pfx2.resize(n);
         build();
     }
-
     void build(){
-
         // pfx[i] = summation ((s[i]-'a+1)*p^i)
         int sum=0;
         for(int i=0;i<n;i++){
@@ -68,7 +61,6 @@ class Hash{
             sum%=mod1;
             pfx[i]=sum;
         }
-
         sum=0;
         for(int i=0;i<n;i++){
             sum+=(s[i]-'a'+1)*power2[i];
@@ -83,7 +75,6 @@ class Hash{
         }
         int res=pfx[r]-pfx[l-1]+mod1;
         res%=mod1;
-
         res*=inv1[l];
         res%=mod1;
         return res;
@@ -98,8 +89,6 @@ class Hash{
         res%=mod2;
         return res;
     }
-
-
 };
 
    

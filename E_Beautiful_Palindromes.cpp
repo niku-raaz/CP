@@ -70,84 +70,56 @@ long long binpow(long long a, long long b, long long m) {
    }
   return res;
 }  
-
 void solve(){
 
-    // I need only last 3 to find current
-
-    int n;
-    cin>>n;
-    int k;cin>>k;
+    int n,k;
+    cin>>n>>k;
     takevec(a,n);
-    // fo n==3
-    auto find2=[&](int ind)->int{
 
-        set<int> s;
-        s.insert(a[ind-1]);
-        s.insert(a[ind-2]);
-        s.insert(a[ind-3]);
-        // i need to use only 1,2,3
+    vector<int> mp(n+1,0);
 
-        // i f i use 1
-        for(int i=1;i<=3;i++){
-            if(!s.count(i)){
-                s.clear();
-                return i;
-            }
+    for(auto x: a){
+        mp[x]++;
+    }
+
+    int x=0;
+
+    for(int i=1;i<=n;i++){
+        if(mp[i]==0){
+            x=i;
+            break;
         }
-        s.clear();
+    }
 
-        return a[ind-3];
-    };
+    if(x==0){
+       for(int i=0;i<k;i++){
+        cout<<a[n-3+(i%3)]<<" ";
+       }
 
-    if(n==3){
-
-        
-
-        for(int i=0;i<k;i++){
-            int x=a.size();
-            int ans=find2(x);
-            a.pb(ans);
-            cout<<ans<<" ";
-            //x++;
-        }
         pl;
-
         return;
-
-
-
-        // handle here
     }
 
-    auto find=[&](int ind)->int{
 
-        set<int> s;
-        s.insert(a[ind-1]);
-        s.insert(a[ind-2]);
-        s.insert(a[ind-3]);
-        // i need to use only 1,2,3
+    int y=-1;
 
-        // i f i use 1
-        for(int i=1;i<=4;i++){
-            if(!s.count(i)){
-                 s.clear();
-                return i;
-            }
+    int z=a.back();
+
+    for(int i=1;i<=n;i++){
+        if(i!=x && i!=z){
+            y=i;
+            break;
         }
-        s.clear();
-        return a[ind-3];
-    };
-    
-    for(int i=0;i<k;i++){
-        int ind=a.size();
-        int ans=find(ind);
-        a.push_back(ans);
-        cout<<ans<<" ";
-        //ind++;
     }
-pl;
-    
+
+    vector<int> v={x,y,z};
+
+    for(int i=0;i<k;i++){
+        cout<<v[i%3]<<" ";
+    }
+
+    pl;
+
 
 
 
@@ -164,7 +136,7 @@ int32_t main(){
         int test_case=1; 
         cin>>test_case; 
         for(int xyz=1;xyz<=test_case;xyz++){
-           // cout<<"Case# :"<<xyz<<" ";
+           // cout<<"Case #"<<xyz<<": ";
              solve(); };        
    return 0;
    }

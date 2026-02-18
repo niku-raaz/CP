@@ -70,7 +70,49 @@ long long binpow(long long a, long long b, long long m) {
    }
   return res;
 }  
+
+int nCk[40][40];
+
+void pre(){
+  for(int i=0;i<30;i++){
+    for(int j=0;j<30;j++){
+      if(i<j) nCk[i][j]=0;
+      else if (j==0) nCk[i][j]=1;
+      else{
+        nCk[i][j]=nCk[i-1][j]+nCk[i-1][j-1];
+      }
+    }
+  }
+}
+
 void solve(){
+
+  int n;cin>>n;
+  int k;cin>>k;
+
+  int d=0;
+  while(n%2==0){
+    n/=2;
+    d++;
+  }
+
+
+  int ans=0;
+
+  // Brute on mxb and c is great idea.
+
+  for(int mxb=0;mxb<d;mxb++){
+    for(int c=1;c<=mxb+1;c++){
+      if(mxb+c<=k)continue;
+      ans+=nCk[mxb][c-1];
+    }
+  }
+
+  if(d+1>k){
+    ans++;
+  }
+
+  cout<<ans;pl;
     
         
 }
@@ -78,6 +120,8 @@ void solve(){
    
    
 int32_t main(){
+
+  pre();
         raaz
    // freopen("input.txt","r",stdin);
    // freopen("output.txt","w",stdout);

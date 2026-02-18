@@ -71,7 +71,36 @@ long long binpow(long long a, long long b, long long m) {
   return res;
 }  
 void solve(){
-    
+
+  // maintain pfx minimum
+  // add edges
+  // check it its a tree
+  
+  int n;cin>>n;
+  vector<int> p(n+1),pre(n+1,n),suf(n+2,0);
+  for(int i=1;i<=n;i++){
+    int x;
+    cin>>x;
+    p[i]=x;
+    pre[i]=min(pre[i-1],p[i]);
+  }
+
+  for(int i=n;i>=1;i--){
+    suf[i]=max(suf[i+1],p[i]);
+  }
+
+
+  for(int i=2;i<=n;i++){
+    if(pre[i-1]>suf[i]){
+      pn;
+      return;
+    }
+  }
+
+  py;
+
+  
+   
         
 }
    
